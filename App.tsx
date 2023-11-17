@@ -4,6 +4,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { Text, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { MD3DarkTheme, PaperProvider } from "react-native-paper";
 
 const Drawer = createDrawerNavigator();
 
@@ -34,7 +35,9 @@ export const RootNavigator = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <RootNavigator />
+      <PaperProvider theme={MD3DarkTheme}>
+        <RootNavigator />
+      </PaperProvider>
     </NavigationContainer>
   );
 }
