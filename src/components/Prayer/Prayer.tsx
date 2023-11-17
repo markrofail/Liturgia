@@ -8,7 +8,7 @@ interface PrayerProps extends PrayerT {}
 
 export const Prayer = ({ title, sections }: PrayerProps) => {
     return (
-        <View style={{ marginBottom: 25, padding: 25 }}>
+        <View style={{ marginBottom: 25 }}>
             <PrayerTitle title={title} />
             {sections.map((section, i) => (
                 <PrayerSection key={i} {...section} />
@@ -17,7 +17,7 @@ export const Prayer = ({ title, sections }: PrayerProps) => {
     );
 };
 
-const PrayerTitle = ({ title: { english, arabic, coptic, coptic_english } }: { title: MultiLingualText }) => {
+const PrayerTitle = ({ title: { english, arabic, coptic } }: { title: MultiLingualText }) => {
     const text = [english, coptic, arabic].filter((str) => !!str).join(" :: ");
     return (
         <Text variant="headlineLarge" style={{ textAlign: "center", marginBottom: 20 }}>

@@ -1,3 +1,8 @@
+export type LiturgyPart = {
+    title: string;
+    prayers: Prayer[];
+};
+
 export type Prayer = {
     title: MultiLingualText;
     sections: PrayerSection[];
