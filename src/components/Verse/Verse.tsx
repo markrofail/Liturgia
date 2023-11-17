@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { Text } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
 import { MultiLingualText } from "../../types";
 
 interface VerseProps {
@@ -7,41 +9,51 @@ interface VerseProps {
 
 export const Verse = ({ verse: { english, arabic, coptic, coptic_english } }: VerseProps) => {
     return (
-        <View style={styles.container}>
-            {english && (
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>{english}</Text>
-                </View>
-            )}
-            {coptic && (
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>{coptic}</Text>
-                </View>
-            )}
-            {coptic_english && (
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>{coptic_english}</Text>
-                </View>
-            )}
-            {arabic && (
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>{arabic}</Text>
-                </View>
-            )}
+        <View style={{ flexDirection: "row" }}>
+            <EnglishText text={english} />
+            <CopticText text={coptic} />
+            <CopticEnglishText text={coptic_english} />
+            <ArabicText text={arabic} />
         </View>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        flexShrink: 1,
-        flexGrow: 1,
-    },
-    textContainer: {
-        flex: 1,
-    },
-    text: {
-        color: "white",
-    },
-});
+const EnglishText = ({ text }: { text?: string }) => {
+    return (
+        text && (
+            <View style={{ flex: 1 }}>
+                <Text>{text}</Text>
+            </View>
+        )
+    );
+};
+
+const ArabicText = ({ text }: { text?: string }) => {
+    return (
+        text && (
+            <View style={{ flex: 1 }}>
+                <Text>{text}</Text>
+            </View>
+        )
+    );
+};
+
+const CopticText = ({ text }: { text?: string }) => {
+    return (
+        text && (
+            <View style={{ flex: 1 }}>
+                <Text>{text}</Text>
+            </View>
+        )
+    );
+};
+
+const CopticEnglishText = ({ text }: { text?: string }) => {
+    return (
+        text && (
+            <View style={{ flex: 1 }}>
+                <Text>{text}</Text>
+            </View>
+        )
+    );
+};
