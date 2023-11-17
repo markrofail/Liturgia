@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { LiturgyPart } from "../../components/LiturgyPart";
-import { prayers } from "../../data";
+import { useScrollIntoView, wrapScrollView } from "react-native-scroll-into-view";
+import { useActivePrayer } from "../../hooks/useActivePrayer";
+
+const CustomScrollView = wrapScrollView(ScrollView);
 
 export const HomeScreen = () => {
     return (
@@ -14,11 +17,26 @@ export const HomeScreen = () => {
                 backgroundColor: "black",
             }}
         >
-            <ScrollView>
-                {Object.entries(prayers).map(([title, prayers], i) => (
-                    <LiturgyPart key={i} title={title} prayers={prayers} />
-                ))}
-            </ScrollView>
+            <CustomScrollView>
+                <ScrollViewContent />
+            </CustomScrollView>
         </View>
+    );
+};
+
+const ScrollViewContent = () => {
+    const { liturgy, activeRef } = useActivePrayer();
+
+    const scrollIntoView = useScrollIntoView();
+    useEffect(() => {
+        activeRef?.current && scrollIntoView(activeRef.current);
+    }, [activeRef]);
+
+    return (
+        <>
+            {liturgy.map(({ title, prayers }, i) => (
+                <LiturgyPart key={i} title={title} prayers={prayers} />
+            ))}
+        </>
     );
 };

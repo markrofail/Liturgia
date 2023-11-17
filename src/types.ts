@@ -1,3 +1,8 @@
+import { MutableRefObject } from "react";
+import { View } from "react-native";
+
+export type Liturgy = LiturgyPart[]
+
 export type LiturgyPart = {
     title: string;
     prayers: Prayer[];
@@ -5,8 +10,11 @@ export type LiturgyPart = {
 
 export type Prayer = {
     title: MultiLingualText;
+    prayerRef: PrayerRef,
     sections: PrayerSection[];
 };
+
+export type PrayerRef = MutableRefObject<View | undefined>;
 
 export type PrayerSection = {
     speaker: Speaker;

@@ -1,13 +1,10 @@
 import React from "react";
 import { Text } from "react-native-paper";
 import { View } from "react-native";
-import { Prayer as PrayerT } from "../../types";
+import { LiturgyPart as LiturgyPartT } from "../../types";
 import { Prayer } from "../../components/Prayer";
 
-interface LiturgyPartProps {
-    title: string;
-    prayers: PrayerT[];
-}
+interface LiturgyPartProps extends LiturgyPartT {}
 
 export const LiturgyPart = ({ title, prayers }: LiturgyPartProps) => {
     return (

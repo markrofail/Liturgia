@@ -6,9 +6,9 @@ import { PrayerSection } from "../PrayerSection";
 
 interface PrayerProps extends PrayerT {}
 
-export const Prayer = ({ title, sections }: PrayerProps) => {
+export const Prayer = ({ title, prayerRef, sections }: PrayerProps) => {
     return (
-        <View style={{ marginBottom: 25 }}>
+        <View ref={prayerRef} style={{ marginBottom: 25 }}>
             <PrayerTitle title={title} />
             {sections.map((section, i) => (
                 <PrayerSection key={i} {...section} />
