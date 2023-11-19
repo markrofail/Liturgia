@@ -1,14 +1,16 @@
 import React from "react";
-import { Text } from "react-native-paper";
-import { TouchableOpacity, View } from "react-native";
+import { Text, TouchableRipple, useTheme } from "react-native-paper";
+import { View } from "react-native";
 import { LiturgyPart } from "../../types";
 import { useActivePrayer } from "../../hooks/useActivePrayer";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { getCopticDate } from "../../utils/CopticCalendar";
 import { Drawer } from "react-native-paper";
-import { DrawerItem, DrawerContentScrollView } from "@react-navigation/drawer";
+import { DrawerContentScrollView } from "@react-navigation/drawer";
+import { loadLiturgy } from "../../utils/LiturgyLoader";
+
 export const DrawerContent = () => {
-    const { liturgy } = useActivePrayer();
+    const liturgy = loadLiturgy();
 
     return (
         <DrawerContentScrollView style={{ flex: 1, backgroundColor: "black", padding: 20 }}>
@@ -23,23 +25,36 @@ export const DrawerContent = () => {
 interface SubMenuProps extends LiturgyPart {}
 
 const SubMenu = ({ title, prayers }: SubMenuProps) => {
-    const { activeRef, setActiveRef } = useActivePrayer();
+    const { activeId, setActiveId } = useActivePrayer();
     const navigation = useNavigation();
+    const { colors, roundness } = useTheme();
 
     return (
         <View style={{ marginBottom: 10 }}>
             <Drawer.Section title={title}>
-                {prayers.map(({ prayerRef, title }, i) => (
-                    <Drawer.Item
-                        key={i}
-                        label={`${i + 1}. ${title.english}`}
-                        active={prayerRef === activeRef}
-                        onPress={() => {
-                            prayerRef && setActiveRef(prayerRef);
-                            navigation.dispatch(DrawerActions.toggleDrawer());
-                        }}
-                    />
-                ))}
+                <View style={{ marginLeft: 25 }}>
+                    {prayers.map(({ id, title }, i) => (
+                        <TouchableRipple
+                            key={id}
+                            borderless
+                            style={{
+                                marginHorizontal: 10,
+                                marginVertical: 4,
+                                padding: 8,
+                                borderRadius: 7 * roundness,
+                                backgroundColor: id === activeId ? colors.secondaryContainer : "transparent",
+                            }}
+                            onPress={() => {
+                                setActiveId(id);
+                                navigation.dispatch(DrawerActions.toggleDrawer());
+                            }}
+                        >
+                            <Text>
+                                {i + 1}. {title.english} {title.arabic}
+                            </Text>
+                        </TouchableRipple>
+                    ))}
+                </View>
             </Drawer.Section>
         </View>
     );
