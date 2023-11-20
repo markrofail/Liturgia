@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans-coptic": "^0.2.3",
+    "@expo-google-fonts/open-sans": "^0.2.3",
     "@expo-google-fonts/rubik": "^0.2.3",
     "@expo/webpack-config": "^19.0.0",
     "@react-navigation/drawer": "^6.6.6",

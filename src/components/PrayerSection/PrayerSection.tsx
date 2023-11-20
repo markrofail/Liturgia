@@ -27,10 +27,10 @@ const SpeakerText = ({ speaker }: { speaker: Speaker }) => {
 
     return (
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Text style={{ color }} variant="titleMedium">
+            <Text style={{ color, fontFamily: "OpenSans_700Bold" }} variant="titleMedium">
                 {english}
             </Text>
-            <Text style={{ color, textAlign: "right", fontFamily: "Rubik_400Regular" }} variant="titleMedium">
+            <Text style={{ color, textAlign: "right", fontFamily: "Rubik_700Bold" }} variant="titleMedium">
                 {arabic}
             </Text>
         </View>

@@ -21,10 +21,32 @@ export const Prayer = forwardRef(({ onLayout, title, sections }: PrayerProps, re
 });
 
 const PrayerTitle = ({ title: { english, arabic, coptic } }: { title: MultiLingualText }) => {
-    const text = [english, coptic, arabic].filter((str) => !!str).join(" :: ");
     return (
-        <Text variant="headlineLarge" style={{ textAlign: "center", marginBottom: 20 }}>
-            {text}
-        </Text>
+        <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginBottom: 20 }}>
+            {english && (
+                <Text variant="headlineLarge" style={{ fontFamily: "OpenSans_700Bold" }}>
+                    {english}
+                </Text>
+            )}
+            {coptic && (
+                <>
+                    <Text variant="headlineLarge"> :: </Text>
+                    <Text
+                        variant="headlineLarge"
+                        style={{ fontFamily: "NotoSansCoptic_400Regular", fontWeight: "bold" }}
+                    >
+                        {coptic}
+                    </Text>
+                </>
+            )}
+            {arabic && (
+                <>
+                    <Text variant="headlineLarge"> :: </Text>
+                    <Text variant="headlineLarge" style={{ fontFamily: "Rubik_700Bold" }}>
+                        {arabic}
+                    </Text>
+                </>
+            )}
+        </View>
     );
 };

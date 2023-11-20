@@ -24,7 +24,7 @@ const EnglishText = ({ text }: { text?: string }) => {
     return (
         text && (
             <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: FONT_SIZE }}>{text}</Text>
+                <Text style={{ fontFamily: "OpenSans_400Regular", fontSize: FONT_SIZE }}>{text}</Text>
             </View>
         )
     );
@@ -56,7 +56,7 @@ const CopticEnglishText = ({ text }: { text?: string }) => {
     return (
         text && (
             <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: FONT_SIZE }}>{text}</Text>
+                <Text style={{ fontFamily: "OpenSans_400Regular", fontSize: FONT_SIZE }}>{text}</Text>
             </View>
         )
     );
