@@ -22,7 +22,7 @@ export type PrayerSection = {
     verses: MultiLingualText[];
 };
 
-export type Speaker = "priest" | "deacon" | "congregation";
+export type Speaker = "priest" | "deacon" | "people";
 
 export type MultiLingualText = {
     english?: string;

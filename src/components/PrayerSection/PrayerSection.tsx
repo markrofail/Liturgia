@@ -18,16 +18,21 @@ export const PrayerSection = ({ speaker, verses }: PrayerSectionProps) => {
 };
 
 const SpeakerText = ({ speaker }: { speaker: Speaker }) => {
-    const textMap: Record<Speaker, { text: string; color: string }> = {
-        priest: { text: "Priest", color: "#ff4000" },
-        deacon: { text: "Deacon", color: "yellow" },
-        congregation: { text: "Congregation", color: "orange" },
+    const textMap: Record<Speaker, { english: string; arabic: string; color: string }> = {
+        priest: { english: "Priest", arabic: "الكاهن", color: "#ff4000" },
+        deacon: { english: "Deacon", arabic: "الشماس", color: "yellow" },
+        people: { english: "People", arabic: "الشعب", color: "orange" },
     };
-    const { text, color } = textMap[speaker];
+    const { english, arabic, color } = textMap[speaker];
 
     return (
-        <Text style={{ color }} variant="titleMedium">
-            {text}
-        </Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Text style={{ color }} variant="titleMedium">
+                {english}
+            </Text>
+            <Text style={{ color, textAlign: "right", fontFamily: "Rubik_400Regular" }} variant="titleMedium">
+                {arabic}
+            </Text>
+        </View>
     );
 };
