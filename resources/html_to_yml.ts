@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as cheerio from "cheerio";
+import path = require("path");
 
 interface Verse {
     english: string;
@@ -31,7 +32,9 @@ const parseHTML = (html: string): Prayer => {
     const children = $("#hymntext > div").children();
     for (let i = 0; i < children.length; i++) {
         const row = $(children[i]);
-        const speaker = getText($(row).find(".englishtext > p > b")).toLowerCase();
+
+        let speaker = getText($(row).find(".englishtext > p > b")).toLowerCase() ?? "";
+        if (!speaker && i === 0) speaker = '""'
 
         const english = getText($(row).find(".englishtext > p"), true);
         const coptic = getText($(row).find(".coptictext_utf8 > p"), true);
@@ -83,10 +86,42 @@ ${section.verses
     return yamlContent;
 };
 
-const htmlFilePath = "resources/prayers/matins/thanksgiving-prayer.html";
-const htmlContent = fs.readFileSync(htmlFilePath, "utf-8");
-const parsedData = parseHTML(htmlContent);
+// Function to change the filename suffix
+const changeFileSuffix = (filePath: string, newSuffix: string) => {
+    const { dir, name } = path.parse(filePath);
+    const newFileName = `${name}${newSuffix}`;
+    const newPath = path.join(dir, newFileName);
+    return newPath;
+};
 
-const outputYamlFilePath = htmlFilePath.replace("html", "yml");
-const yamlContent = convertToYAML(parsedData);
-fs.writeFileSync(outputYamlFilePath, yamlContent);
+// Function to recursively scan a directory for HTML files and convert to YAML
+const convertHTMLFilesToYAMLRecursive = (directory: string) => {
+    const files = fs.readdirSync(directory);
+
+    files.forEach((file) => {
+        const filePath = path.join(directory, file);
+        const isDirectory = fs.statSync(filePath).isDirectory();
+
+        if (isDirectory) {
+            // Recursively scan the subdirectory
+            convertHTMLFilesToYAMLRecursive(filePath);
+        } else if (file.endsWith('.html')) {
+            convertHTMLFileToYAML(filePath);
+        }
+    });
+};
+
+const convertHTMLFileToYAML = (filePath: string) => {
+    const htmlContent = fs.readFileSync(filePath, 'utf-8');
+    const parsedData = parseHTML(htmlContent);
+
+    const yamlContent = convertToYAML(parsedData);
+    const newYamlFilePath = changeFileSuffix(filePath, '.yml');
+    fs.writeFileSync(newYamlFilePath, yamlContent);
+
+    console.log(`Conversion completed for: ${filePath}`);
+}
+
+// Run the conversion for the current directory
+convertHTMLFilesToYAMLRecursive(__dirname);
+// convertHTMLFileToYAML();

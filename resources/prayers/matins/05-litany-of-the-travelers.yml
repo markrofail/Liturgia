@@ -1,0 +1,59 @@
+title:
+    english: "The Litany for the Travelers"
+    arabic: "أوشية المسافرين"
+
+sections:
+    - speaker: priest
+      verses:
+          - english: "We ask and entreat Your goodness, O Lover of Mankind, remember, O Lord, our fathers and our brethren who are traveling"
+            coptic: "Ⲧⲉⲛϯϩⲟ ⲟⲩⲟϩ ⲧⲉⲛⲧⲱⲃϩ ⲛ̀ⲧⲉⲕⲙⲉⲧⲁ̀ⲅⲁⲑⲟⲥ Ⲡⲓⲙⲁⲓⲣⲱⲙⲓ ⲁ̀ⲣⲓⲫ̀ⲙⲉⲩⲓ Ⲡ̀ϭⲟⲓⲥ ⲛ̀ⲛⲉⲛⲓⲟϯ ⲛⲉⲙ ⲛⲉⲛⲥ̀ⲛⲏⲟⲩ ⲉ̀ⲧⲁⲩϣⲉ ⲉ̀ⲡ̀ϣⲉⲙⲙⲟ"
+            coptic_english: ""
+            arabic: "نسأل ونطلب من صلاحك يا محب البشر، أُذكر يا رب آباءنا وإخوتنا المسافرين"
+
+    - speaker: deacon
+      verses:
+          - english: "Pray for our fathers and our brethren who are traveling, or those who intend to travel anywhere, that God may straighten all their ways, whether by sea, rivers, lakes, roads, air, or those who are traveling by any other means, that Christ our God may bring them back to their own homes in peace, and forgive us our sins"
+            coptic: "Ⲧⲱⲃϩ ⲉ̀ϫⲉⲛ ⲛⲉⲛⲓⲟϯ ⲛⲉⲙ ⲛⲉⲛⲥ̀ⲛⲏⲟⲩ ⲉ̀ⲧⲁⲩϣⲉ ⲉ̀ⲡ̀ϣⲉⲙⲙⲟ ⲓⲉ ⲛⲏⲉⲑⲙⲉⲩⲓ ⲉ̀ϣⲉ ϧⲉⲛ ⲙⲁⲓ ⲛⲓⲃⲉⲛ ⲥⲟⲩⲧⲱⲛ ⲛⲟⲩⲙⲱⲓⲧ ⲧⲏⲣⲟⲩ ⲓ̀ⲧⲉ ⲉ̀ⲃⲟⲗ ϩⲓⲧⲉⲛ ⲫ̀ⲓⲟⲙ ⲓⲉ ⲛⲓⲓⲁⲣⲱⲟⲩ ⲓⲉ ⲛⲓⲗⲩⲙⲛⲏ ⲓⲉ ⲛⲓⲙⲱⲓⲧ ⲙ̀ⲙⲟϣⲓ ⲓⲉ ⲡⲓⲁ̀ⲏⲣ ⲓⲉ ⲉⲩⲓ̀ⲣⲓ ⲙ̀ⲡⲟⲩϫⲓⲛⲙⲟϣⲓ ⲛ̀ⲣⲏϯ ⲛⲓⲃⲉⲛ ϩⲓⲛⲁ ⲛ̀ⲧⲉ Ⲡⲓⲭ̀ⲣⲓⲥⲧⲟⲥ Ⲡⲉⲛⲛⲟⲩϯ ⲧⲁⲥⲑⲱⲟⲩ ⲉ̀ⲛⲏⲉ̀ⲧⲉ ⲛⲟⲩⲟⲩ ⲙ̀ⲙⲁ ⲛ̀ϣⲱⲛⲓ ϧⲉⲛ ⲟⲩϩⲓⲣⲏⲛⲏ ⲛ̀ⲧⲉϥⲭⲁ ⲛⲉⲛⲛⲟⲃⲓ ⲛⲁⲛ ⲉ̀ⲃⲟⲗ"
+            coptic_english: ""
+            arabic: "أُطلبوا عن آبائنا وإخوتنا المسافرين، والذين يضمرون السفر في كل موضع، لكي يُسهل طرقهم أجمعين إن كان في البحر أو الأنهار أو البحيرات أو الطرق المسلوكة أو الجو أو المسافرين بكل نوع، لكي المسيح إلهنا يردهم إلى مساكنهم سالمين، ويغفر لنا خطايانا"
+
+    - speaker: people
+      verses:
+          - english: "Lord have mercy"
+            coptic: "Ⲕⲩⲣⲓⲉ ⲉ̀ⲗⲉⲏ̀ⲥⲟⲛ"
+            coptic_english: "Ki-ri-e e-le-eeson"
+            arabic: "يا ربُّ إرحَم"
+
+    - speaker: priest
+      verses:
+          - english: "And those who intend to travel anywhere, straighten all their ways, whether by sea, rivers, lakes, roads, air, or those who are traveling by any other means, everyone anywhere. Lead them into a haven of calm, a haven of safety"
+            coptic: "Ⲓⲉ ⲛⲏⲉⲑⲙⲉⲩⲓ ⲉ̀ϣⲉ ϧⲉⲛ ⲙⲁⲓ ⲛⲓⲃⲉⲛ ⲥⲟⲩⲧⲱⲛ ⲛⲟⲩⲙⲱⲓⲧ ⲧⲏⲣⲟⲩ ⲓ̀ⲧⲉ ⲉ̀ⲃⲟⲗ ϩⲓⲧⲉⲛ ⲫ̀ⲓⲟⲙ ⲓⲉ ⲛⲓⲓⲁⲣⲱⲟⲩ ⲓⲉ ⲛⲓⲗⲩⲙⲛⲏ ⲓⲉ ⲛⲓⲙⲱⲓⲧ ⲙ̀ⲙⲟϣⲓ ⲓⲉ ⲛⲓⲙⲱⲓⲧ ⲓⲉ ⲉⲩⲓ̀ⲣⲓ ⲙ̀ⲡⲟⲩϫⲓⲛⲙⲟϣⲓ ⲛ̀ⲣⲏϯ ⲛⲓⲃⲉⲛ ⲟⲩⲟⲛ ⲛⲓⲃⲉⲛ ⲉⲧ ϧⲉⲛ ⲙⲁⲓ ⲛⲓⲃⲉⲛ ⲙⲁⲧ̀ⲫⲱⲟⲩ ⲉ̀ϧⲟⲩⲛ ⲉ̀ⲟⲩⲗⲩⲙⲏⲛ ⲛ̀ϫⲁⲙⲏ ⲉ̀ⲟⲩⲗⲩⲙⲏⲛ ⲛ̀ⲧⲉ ⲡⲓⲟⲩϫⲁⲓ"
+            coptic_english: ""
+            arabic: "والذين يضمرون السفر في كل مكان، سهل طرقهم أجمعين، إن كان في البحر أو الأنهار أو البحيرات أو الطرق المسلوكة أو الجو أو السالكين بكل نوع، كل أحد بكل موضع ردهم إلى ميناء هادئة، ميناء الخلاص"
+
+          - english: "Graciously accompany them in their departure and be their companion in their travel"
+            coptic: "Ⲁ̀ⲣⲓⲕⲁⲧⲁⲝⲓⲟⲓⲛ ⲁ̀ⲣⲓϣ̀ⲫⲏⲣ ⲛ̀ϣ̀ϭⲏⲣ ⲛⲉⲙ ϣ̀ⲫⲏⲣ ⲙ̀ⲙⲟϣⲓ ⲛⲉⲙⲱⲟⲩ"
+            coptic_english: ""
+            arabic: "تفضل إصحبهم في الإقلاع، وإصحبهم في المسير"
+
+          - english: "Bring them back to their own, rejoicing with joy and safe in security"
+            coptic: "Ⲙⲏⲓⲧⲟⲩ ⲉ̀ⲛⲏⲉ̀ⲧⲉ ⲛⲟⲩⲟⲩ ϧⲉⲛ ⲟⲩⲣⲁϣⲓ ⲉⲩⲣⲁϣⲓ ϧⲉⲛ ⲟⲩⲧⲟⲩϫⲟ ⲉⲩⲧⲟⲩϫⲏⲟⲩⲧ"
+            coptic_english: ""
+            arabic: "ردهم إلى منازلهم بالفرح فرحين، وبالعافية معافين"
+
+          - english: "In work, be a partner with Your servants in every good deed"
+            coptic: "Ⲁ̀ⲣⲓϣ̀ⲫⲏⲣ ⲛ̀ⲉⲣϩⲱⲃ ⲛⲉⲙ ⲛⲉⲕⲉ̀ⲃⲓⲁⲓⲕ ϧⲉⲛ ϩⲱⲃ ⲛⲓⲃⲉⲛ ⲛ̀ⲁ̀ⲅⲁⲑⲟⲛ"
+            coptic_english: ""
+            arabic: "إشترك في العمل مع عبيدك في كل عمل صالح"
+
+          - english: "As for us, O Lord, keep our sojourn in this life without harm, without storm, and undisturbed to the end"
+            coptic: "Ⲁ̀ⲛⲟⲛ ⲇⲉ ϩⲱⲛ Ⲡ̀ϭⲟⲓⲥ ⲧⲉⲛⲙⲉⲧⲣⲉⲙⲛ̀ϫⲱⲓⲗⲓ ⲉⲧ ϧⲉⲛ ⲡⲁⲓⲃⲓⲟⲥ ⲫⲁⲓ ⲁ̀ⲣⲉϩ ⲉ̀ⲣⲟⲥ ⲛ̀ⲁⲧⲉⲃⲗⲁⲃⲏ ⲛ̀ⲁⲧⲭⲓⲙⲱⲛ ⲛ̀ⲁⲧϣ̀ⲑⲟⲣⲧⲉⲣ ϣⲁ ⲉ̀ⲃⲟⲗ"
+            coptic_english: ""
+            arabic: "ونحن أيضاً يا رب غربتنا في هذا العمر، إحفظها بغير مضرة ولا عاصف ولا قلق إلى الإنقضاء"
+
+    - speaker: people
+      verses:
+          - english: "Lord have mercy"
+            coptic: "Ⲕⲩⲣⲓⲉ ⲉ̀ⲗⲉⲏ̀ⲥⲟⲛ"
+            coptic_english: "Ki-ri-e e-le-eeson"
+            arabic: "يا ربُّ إرحَم"
