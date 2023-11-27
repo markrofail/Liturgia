@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useScrollIntoView, wrapScrollView } from "react-native-scroll-into-view";
 import { useActivePrayer } from "../../hooks/useActivePrayer";
-import { loadLiturgy } from "../../utils/LiturgyLoader";
 import { Prayer } from "../../components/Prayer";
+import liturgy from "../../../resources/prayers/st-basil-liturgy";
+import { ZOOM_MULTIPLIER } from "../../constants";
 
 const CustomScrollView = wrapScrollView(ScrollView);
+const SPACE_BETWEEN_PRAYERS = 10 * ZOOM_MULTIPLIER;
 
 export const HomeScreen = () => {
     const [currentY, setCurrentY] = useState(0);
@@ -14,7 +16,7 @@ export const HomeScreen = () => {
         <View
             style={{
                 flex: 1,
-                padding: 25,
+                width: "100%",
                 alignItems: "center",
                 justifyContent: "flex-start",
                 backgroundColor: "black",
@@ -22,7 +24,8 @@ export const HomeScreen = () => {
         >
             <CustomScrollView
                 onScroll={(event) => {
-                    setCurrentY(event.nativeEvent.contentOffset.y);
+                    const { y } = event.nativeEvent.contentOffset;
+                    setCurrentY(y);
                 }}
             >
                 <ScrollViewContent scrollY={currentY} />
@@ -36,12 +39,16 @@ const ScrollViewContent = ({ scrollY }: { scrollY: number }) => {
     const [prayerMap, setPrayerMap] = useState<Record<string, number>>({});
     const scrollIntoView = useScrollIntoView();
 
-    const liturgy = loadLiturgy();
-    const prayers = liturgy.flatMap(({ prayers }) => prayers);
-    const prayerRefMap = Object.fromEntries(prayers.map(({ id }) => [id, useRef<View>()]));
+    useEffect(() => {
+        console.log(JSON.stringify(prayerMap, null, 2));
+    }, [prayerMap]);
+
+    const prayerRefMap = Object.fromEntries(
+        liturgy.flatMap(({ prayers }) => prayers).map(({ id }) => [id, useRef<View>()])
+    );
 
     useEffect(() => {
-        setActiveId(prayers[0].id);
+        setActiveId(liturgy[0].prayers[0].id);
     }, []);
 
     useEffect(() => {
@@ -51,10 +58,14 @@ const ScrollViewContent = ({ scrollY }: { scrollY: number }) => {
         const nextY = prayerMap[nextPrayer];
 
         const activeY = prayerMap[activeId];
-        const activePrayerBounds = { top: activeY, bottom: nextY - 1 };
+        const activePrayerBounds = { top: activeY, bottom: nextY };
 
-        const newRef = prayerRefMap[activeId];
+        // console.log(JSON.stringify({ activeId, activeY }));
+        // console.log(JSON.stringify({ scrollY, activePrayerBounds }));
+        // console.log(JSON.stringify({ nextPrayer, nextY }));
+
         if (scrollY < activePrayerBounds.top || scrollY > activePrayerBounds.bottom) {
+            const newRef = prayerRefMap[activeId];
             newRef?.current && scrollIntoView(newRef.current, { animated: false });
         }
     }, [activeId]);
@@ -70,24 +81,26 @@ const ScrollViewContent = ({ scrollY }: { scrollY: number }) => {
 
         if (scrollY > nextY) {
             setActiveId(nextPrayer);
-        } else if (scrollY < activeY - 35) {
+        } else if (scrollY < activeY - 10) {
             setActiveId(prevPrayer);
         }
     }, [scrollY]);
 
     return (
         <>
-            {prayers.map((prayer) => (
-                <Prayer
-                    {...prayer}
-                    key={prayer.id}
-                    ref={prayerRefMap[prayer.id]}
-                    onLayout={(event: any) => {
-                        const y = event.nativeEvent.layout.y;
-                        setPrayerMap((prayerMap) => ({ ...prayerMap, [prayer.id]: y }));
-                    }}
-                />
-            ))}
+            {liturgy
+                .flatMap(({ prayers }) => prayers)
+                .map((prayer) => (
+                    <Prayer
+                        {...prayer}
+                        key={prayer.id}
+                        ref={prayerRefMap[prayer.id]}
+                        onLayout={(event: any) => {
+                            const { y } = event.nativeEvent.layout;
+                            setPrayerMap((prayerMap) => ({ ...prayerMap, [prayer.id]: y }));
+                        }}
+                    />
+                ))}
         </>
     );
 };
