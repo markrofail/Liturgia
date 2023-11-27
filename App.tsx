@@ -17,6 +17,7 @@ export default function App() {
         NotoSansCoptic_400Regular,
         OpenSans_400Regular,
         OpenSans_700Bold,
+        CopticForAll: require("./assets/fonts/CopticForAll.ttf"),
     });
 
     if (!fontsLoaded) {
