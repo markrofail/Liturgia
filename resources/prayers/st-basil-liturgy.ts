@@ -1,15 +1,15 @@
-import slugify from "slugify";
-import matins from "./matins";
+import { generatePrayerIds } from "./utils";
 
-const generatePrayerId = (prefix: string, index: number, prayer: any) =>
-    slugify(`${prefix} ${index} ${prayer.title.english}`.toLowerCase());
+import matins from "./00-matins";
+import offertoryOfTheLamb from "./01-offertory-of-the-lamb";
+import liturgyOfTheWord from "./02-liturgy-of-the-word";
+import liturgyOfTheBelievers from "./03-liturgy-of-the-believers";
+import distribution from "./04-distribution";
 
-export default [
+export default generatePrayerIds([
     { title: "Matins", prayers: matins },
-    // { title: "The Offertory", prayers: matins },
-    // { title: "The Liturgy of the Word", prayers: matins },
-    // { title: "The Liturgy of the Believers", prayers: matins },
-].map(({ title, prayers }) => ({
-    title,
-    prayers: prayers.map((prayer: any, i: number) => ({ ...prayer, id: generatePrayerId(title, i, prayer) })),
-}));
+    { title: "The Offertory", prayers: offertoryOfTheLamb },
+    { title: "The Liturgy of the Word", prayers: liturgyOfTheWord },
+    { title: "The Liturgy of the Believers", prayers: liturgyOfTheBelievers },
+    { title: "Distribution", prayers: distribution },
+])
