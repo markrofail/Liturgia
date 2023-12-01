@@ -13,10 +13,11 @@ export type Prayer = {
 
 export type PrayerSection = {
     speaker?: Speaker;
-    verses: MultiLingualText[];
+    text?: MultiLingualText;
+    verses?: MultiLingualText[];
 };
 
-export type Speaker = "priest" | "deacon" | "people" | "reader";
+export type Speaker = "priest" | "deacon" | "people" | "reader" | "info";
 
 export type MultiLingualText = {
     english?: string;
