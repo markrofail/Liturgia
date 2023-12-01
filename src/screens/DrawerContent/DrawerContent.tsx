@@ -1,24 +1,45 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Icon, Text, TouchableRipple } from "react-native-paper";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useActivePrayer } from "../../hooks/useActivePrayer";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { getCopticDate } from "../../utils/CopticCalendar";
 import { Drawer } from "react-native-paper";
-import { useScrollIntoView, wrapScrollView } from "react-native-scroll-into-view";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import liturgy from "../../../resources/prayers/st-basil-liturgy";
 import { Liturgy, Prayer } from "../../types";
 
-const CustomScrollView = wrapScrollView(DrawerContentScrollView);
-
 export const DrawerContent = () => {
+    const { activeId } = useActivePrayer();
+    const scrollRef = useRef<ScrollView>();
+    const [prayerMap, setPrayerMap] = useState<Record<string, number>>({});
+
+    useEffect(() => {
+        scrollRef?.current?.scrollTo({ y: prayerMap[activeId], animated: false });
+    }, [activeId]);
+
     return (
         <View style={{ flex: 1, backgroundColor: "black", padding: 20 }}>
             <CopticDate />
-            <CustomScrollView>
-                <ScrollViewContent />
-            </CustomScrollView>
+            <DrawerContentScrollView ref={scrollRef}>
+                {(liturgy as Liturgy).map(({ title, prayers }) => (
+                    <Drawer.Section title={title} key={title} style={{ marginBottom: 10 }}>
+                        {prayers.map((prayer, i) => (
+                            <View
+                                key={prayer.id}
+                                onLayout={(event: any) => {
+                                    setPrayerMap((prayerMap) => ({
+                                        ...prayerMap,
+                                        [prayer.id]: event?.nativeEvent?.layout?.y,
+                                    }));
+                                }}
+                            >
+                                <MenuEntry index={i} prayer={prayer} />
+                            </View>
+                        ))}
+                    </Drawer.Section>
+                ))}
+            </DrawerContentScrollView>
         </View>
     );
 };
@@ -43,38 +64,6 @@ const CopticDate = () => {
                 </Text>
             </View>
         </Drawer.Section>
-    );
-};
-
-const ScrollViewContent = () => {
-    const { activeId } = useActivePrayer();
-    const scrollIntoView = useScrollIntoView();
-
-    const prayerRefMap = Object.fromEntries(
-        liturgy.flatMap(({ prayers }) => prayers).map(({ id }) => [id, useRef<View>()])
-    );
-
-    useEffect(() => {
-        const newRef = prayerRefMap[activeId];
-        newRef?.current && scrollIntoView(newRef.current, { animated: false });
-    }, [activeId]);
-
-    return (
-        <>
-            {(liturgy as Liturgy).map(({ title, prayers }) => (
-                <View key={title} style={{ marginBottom: 10 }}>
-                    <Drawer.Section title={title}>
-                        <View style={{ marginLeft: 25 }}>
-                            {prayers.map((prayer, i) => (
-                                <View key={prayer.id} ref={prayerRefMap[prayer.id]}>
-                                    <MenuEntry prayer={prayer} index={i} />
-                                </View>
-                            ))}
-                        </View>
-                    </Drawer.Section>
-                </View>
-            ))}
-        </>
     );
 };
 
@@ -106,8 +95,8 @@ const MenuEntry = ({ index, prayer: { id, title } }: MenuEntry) => {
             <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
                 <Text style={{ ...textStyles, fontSize: 20 }}>{index + 1}</Text>
                 <View>
-                    {title.english && <Text style={textStyles}>{title.english}</Text>}
-                    {title.arabic && (
+                    {!!title.english && <Text style={textStyles}>{title.english}</Text>}
+                    {!!title.arabic && (
                         <Text style={{ ...textStyles, fontFamily: "Rubik_400Regular" }}>{title.arabic}</Text>
                     )}
                 </View>
