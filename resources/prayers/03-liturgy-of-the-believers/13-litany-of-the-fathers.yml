@@ -1,6 +1,6 @@
 title:
-    english: "The Litany for the Peace"
-    arabic: "أوشية السلام"
+    english: "The Litany of the Fathers"
+    arabic: "أوشية الآباء"
 
 sections:
     - speaker: priest
@@ -15,13 +15,13 @@ sections:
             coptic_english: ""
             arabic: "وأخوية الروحيين مار إغناطيوس (...) بطريرك أنطاكية وأبونا (...) بطريرك إريتريا."
 
-          - english: "In the presence of a bishop"
-            arabic: "في حضور الأب الأسقف"
+          # - english: "In the presence of a bishop"
+          #   arabic: "في حضور الأب الأسقف"
 
-          - english: "and his partner in the liturgy, our father the bishop (metropolitan), Abba (...)."
-            coptic: "Ⲛⲉⲙ ⲡⲉϥⲕⲉϣ̀ⲫⲏⲣ ⲛ̀ⲗⲓⲧⲟⲩⲣⲅⲟⲥ ⲡⲉⲛⲓⲱⲧ ⲛ̀ⲉ̀ⲡⲓⲥⲕⲟⲡⲟⲥ (ⲙ̀ⲙⲏⲧⲣⲟⲡⲟⲗⲓⲧⲏⲥ) ⲁⲃⲃⲁ (...)."
-            coptic_english: ""
-            arabic: "وشريكة في الخدمة الرسولية أبينا الأسقف (المطران) الأنبا (...)."
+          # - english: "and his partner in the liturgy, our father the bishop (metropolitan), Abba (...)."
+          #   coptic: "Ⲛⲉⲙ ⲡⲉϥⲕⲉϣ̀ⲫⲏⲣ ⲛ̀ⲗⲓⲧⲟⲩⲣⲅⲟⲥ ⲡⲉⲛⲓⲱⲧ ⲛ̀ⲉ̀ⲡⲓⲥⲕⲟⲡⲟⲥ (ⲙ̀ⲙⲏⲧⲣⲟⲡⲟⲗⲓⲧⲏⲥ) ⲁⲃⲃⲁ (...)."
+          #   coptic_english: ""
+          #   arabic: "وشريكة في الخدمة الرسولية أبينا الأسقف (المطران) الأنبا (...)."
 
     - speaker: deacon
       verses:
@@ -35,20 +35,20 @@ sections:
             coptic_english: ""
             arabic: "وأخوية الروحيين مار إغناطيوس (...) بطريرك أنطاكية وأبونا (...) بطريرك إريتريا."
 
-          - english: "In the presence of a bishop"
-            coptic: "-"
-            coptic_english: ""
-            arabic: "في حضور الأب الأسقف"
+          # - english: "In the presence of a bishop"
+          #   coptic: "-"
+          #   coptic_english: ""
+          #   arabic: "في حضور الأب الأسقف"
 
-          - english: "and his partner in the liturgy, our father the bishop (metropolitan), Abba (...)."
-            coptic: "Ⲕⲉ ⲧⲟⲩ ⲥⲩⲛⲕⲟⲓⲛⲱⲛⲟⲩ ⲉⲛ ⲧⲏ ⲗⲓⲧⲟⲩⲣⲅⲓⲁ ⲧⲟⲩ ⲡⲁⲧⲣⲟⲥ ⲏ̀ⲙⲱⲛ ⲧⲟⲩ ⲉ̀ⲡⲓⲥⲕⲟⲡⲟⲩ (ⲙⲏⲧⲣⲟⲡⲟⲗⲓⲧⲟⲩ) ⲁⲃⲃⲁ ("
-            coptic_english: ""
-            arabic: "وشريكة في الخدمة الرسولية أبينا الأسقف (المطران) الأنبا (...)."
+          # - english: "and his partner in the liturgy, our father the bishop (metropolitan), Abba (...)."
+          #   coptic: "Ⲕⲉ ⲧⲟⲩ ⲥⲩⲛⲕⲟⲓⲛⲱⲛⲟⲩ ⲉⲛ ⲧⲏ ⲗⲓⲧⲟⲩⲣⲅⲓⲁ ⲧⲟⲩ ⲡⲁⲧⲣⲟⲥ ⲏ̀ⲙⲱⲛ ⲧⲟⲩ ⲉ̀ⲡⲓⲥⲕⲟⲡⲟⲩ (ⲙⲏⲧⲣⲟⲡⲟⲗⲓⲧⲟⲩ) ⲁⲃⲃⲁ ("
+          #   coptic_english: ""
+          #   arabic: "وشريكة في الخدمة الرسولية أبينا الأسقف (المطران) الأنبا (...)."
 
-          - english: "And concludes with"
-            coptic: ""
-            coptic_english: ""
-            arabic: "وينهي"
+          # - english: "And concludes with"
+          #   coptic: ""
+          #   coptic_english: ""
+          #   arabic: "وينهي"
 
           - english: "and for our orthodox bishops."
             coptic: ""

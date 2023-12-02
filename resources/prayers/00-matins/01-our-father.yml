@@ -18,8 +18,8 @@ sections:
     - speaker: priest
       verses:
           - english: "Make us worthy to pray thankfully"
-            coptic: "Ⲁ̀ⲣⲓⲧⲉⲛ ⲛ̀ⲉⲙⲡ̀ϣⲁ ⲛ̀ϫⲟⲥ ϧⲉⲛ ⲟⲩϣⲉⲡϩ̀ⲙⲟⲧ"
-            coptic_english: ""
+            # coptic: "Ⲁ̀ⲣⲓⲧⲉⲛ ⲛ̀ⲉⲙⲡ̀ϣⲁ ⲛ̀ϫⲟⲥ ϧⲉⲛ ⲟⲩϣⲉⲡϩ̀ⲙⲟⲧ"
+            # coptic_english: ""
             arabic: "وإجعلنا مستحقين أن نقول بشكر"
 
     - speaker: people

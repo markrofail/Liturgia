@@ -46,9 +46,13 @@ sections:
             coptic_english: ""
             arabic: "بيوت صلاة، بيوت طهارة، بيوت بركة، أنعم بها لنا يا رب، ولعبيدك الآتين بعدنا إلى الأبد"
 
-          - english: "The following may be said"
-            arabic: "يمكن يقال الآتي"
+    - speaker: info
+      text:
+          english: "The following may be said"
+          arabic: "يمكن يقال الآتي"
 
+    - speaker: priest
+      verses:
           - english: "The worship of idols, utterly uproot from the world"
             coptic: "Ϯⲙⲉⲧϣⲁⲙϣⲉ ⲓ̀ⲇⲱⲗⲟⲛ ϧⲉⲛ ⲟⲩϫⲱⲕ ϥⲟϫⲥ ⲉ̀ⲃⲟⲗ ϧⲉⲛ ⲡⲓⲕⲟⲥⲙⲟⲥ"
             coptic_english: ""
@@ -96,9 +100,6 @@ sections:
             coptic_english: "Ki-ri-e e-le-eeson"
             arabic: "يا ربُّ إرحَم"
 
-          - english: "Then the following is said"
-            arabic: "ثم يكمل بالآتي"
-
     - speaker: priest
       verses:
           - english: "Arise, O Lord God, let all Your enemies be scattered, and let all who hate Your holy name flee before Your face"
@@ -116,7 +117,7 @@ sections:
             coptic_english: ""
             arabic: "بالنعمة والرأفات ومحبة البشر اللواتي لإبنك الوحيد ربنا وإلهنا ومخلصنا يسوع المسيح"
 
-          - english: "Through whom the glory, the honor, the dominion, and the worship are due unto You, with Him and the Holy Spirit, the Giver of Life, who is of one essence with You, now and at all times, and unto the age of all ages. Amen"
-            coptic: "Ⲫⲁⲓ ⲉ̀ⲧⲉ ⲉ̀ⲃⲟⲗ ϩⲓⲧⲟⲧϥ ⲉ̀ⲣⲉ ⲡⲓⲱ̀ⲟⲩ ⲛⲉⲙ ⲡⲓⲧⲁⲓⲟ ⲛⲉⲙ ⲡⲓⲁ̀ⲙⲁϩⲓ ⲛⲉⲙ ϯⲡ̀ⲣⲟⲥⲕⲩⲛⲏⲥⲓⲥ ⲉⲣⲡ̀ⲣⲉⲡⲓ ⲛⲁⲕ ⲛⲉⲙⲁϥ ⲛⲉⲙ Ⲡⲓⲡ̀ⲛⲉⲩⲙⲁ Ⲉⲑⲟⲩⲁⲃ ⲛ̀ⲣⲉϥⲧⲁⲛϧⲟ ⲟⲩⲟϩ ⲛ̀ⲟ̀ⲙⲟⲟⲩⲥⲓⲟⲥ ⲛⲉⲙⲁⲕ. Ϯⲛⲟⲩ ⲛⲉⲙ ⲛ̀ⲥⲏⲟⲩ ⲛⲓⲃⲉⲛ ⲛⲉⲙ ϣⲁ ⲉ̀ⲛⲉϩ ⲛ̀ⲧⲉ ⲛⲓⲉ̀ⲛⲉϩ ⲧⲏⲣⲟⲩ ⲁ̀ⲙⲏⲛ"
-            coptic_english: ""
-            arabic: "هذا الذي من قبله المجد والإكرام والعزة والسجود تليق بك معه، مع الروح القدس المحيي المساوي لك. الآن وكل أوان وإلى دهر الدهور. آمين"
+          # - english: "Through whom the glory, the honor, the dominion, and the worship are due unto You, with Him and the Holy Spirit, the Giver of Life, who is of one essence with You, now and at all times, and unto the age of all ages. Amen"
+          #   coptic: "Ⲫⲁⲓ ⲉ̀ⲧⲉ ⲉ̀ⲃⲟⲗ ϩⲓⲧⲟⲧϥ ⲉ̀ⲣⲉ ⲡⲓⲱ̀ⲟⲩ ⲛⲉⲙ ⲡⲓⲧⲁⲓⲟ ⲛⲉⲙ ⲡⲓⲁ̀ⲙⲁϩⲓ ⲛⲉⲙ ϯⲡ̀ⲣⲟⲥⲕⲩⲛⲏⲥⲓⲥ ⲉⲣⲡ̀ⲣⲉⲡⲓ ⲛⲁⲕ ⲛⲉⲙⲁϥ ⲛⲉⲙ Ⲡⲓⲡ̀ⲛⲉⲩⲙⲁ Ⲉⲑⲟⲩⲁⲃ ⲛ̀ⲣⲉϥⲧⲁⲛϧⲟ ⲟⲩⲟϩ ⲛ̀ⲟ̀ⲙⲟⲟⲩⲥⲓⲟⲥ ⲛⲉⲙⲁⲕ. Ϯⲛⲟⲩ ⲛⲉⲙ ⲛ̀ⲥⲏⲟⲩ ⲛⲓⲃⲉⲛ ⲛⲉⲙ ϣⲁ ⲉ̀ⲛⲉϩ ⲛ̀ⲧⲉ ⲛⲓⲉ̀ⲛⲉϩ ⲧⲏⲣⲟⲩ ⲁ̀ⲙⲏⲛ"
+          #   coptic_english: ""
+          #   arabic: "هذا الذي من قبله المجد والإكرام والعزة والسجود تليق بك معه، مع الروح القدس المحيي المساوي لك. الآن وكل أوان وإلى دهر الدهور. آمين"
