@@ -10,8 +10,8 @@ sections:
             # coptic_english: ""
             arabic: "فصل من اعمال آبائنا الرسل الأطهار، بركتهم تكون معنا"
 
-          - english: "(The Acts)"
-            arabic: "(الإبركسيس)"
+          - type: reading
+            readingType: acts-of-the-apostles
 
           - english: "The word of the Lord shall grow, multiply, be mighty, and be confirmed in the holy Church of God. Amen"
             # coptic: "Ⲡⲓⲥⲁϫⲓ ⲇⲉ ⲛ̀ⲧⲉ Ⲡⲟ̅ⲥ̅ ⲉϥⲉ̀ⲁ̀ⲓⲁ̀ⲓ ⲟⲩⲟϩ ⲉϥⲉ̀ⲁ̀ϣⲁⲓ ⲉϥⲉ̀ⲁ̀ⲙⲁϩⲓ ⲟⲩⲟϩ ⲉϥⲉⲧ̀ⲁϫⲣⲟ ϧⲉⲛ ϯⲁ̀ⲅⲓⲁ ⲛ̀ⲉ̀ⲕⲕⲗⲏⲥⲓⲁ ⲛ̀ⲧⲉ Ⲫϯ ⲁ̀ⲙⲏⲛ"

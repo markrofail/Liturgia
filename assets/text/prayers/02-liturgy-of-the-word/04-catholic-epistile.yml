@@ -10,8 +10,8 @@ sections:
             # coptic_english: ""
             arabic: "الكاثوليكون من رسالة ابينا (يعقوب، يهوذا)، يا أحبائى"
 
-          - english: "(The Catholic Epistle)"
-            arabic: "(الكاثوليكون)"
+          - type: reading
+            readingType: catholic-epistle
 
           - english: "Do not love the world nor the things in the world. The world passes away, and its desires; but he who does the will of God abides forever. Amen"
             # coptic: "Ⲛⲁⲥ̀ⲛⲏⲟⲩ ⲙ̀ⲡⲉⲣⲙⲉⲛⲣⲉ ⲡⲓⲕⲟⲥⲙⲟⲥ ⲟ̀ⲩⲇⲉ ⲛⲏⲉ̀ⲧϣⲟⲡ ϧⲉⲛ ⲡⲓⲕⲟⲥⲙⲟⲥ ⲡⲓⲕⲟⲥⲙⲟⲥ ⲛⲁⲥⲓⲛⲓ ⲛⲉⲙ ⲧⲉϥⲉ̀ⲡⲓⲑⲩⲙⲓⲁ ⲫⲏ ⲇⲉ ⲉⲧⲓ̀ⲣⲓ ⲙ̀ⲫ̀ⲟ̀ⲩⲱ̀ϣ ⲙ̀Ⲫϯ ϥ̀ⲛⲁϣⲱⲡⲓ ϣⲁ ⲉ̀ⲛⲉϩ ⲁ̀ⲙⲏⲛ"

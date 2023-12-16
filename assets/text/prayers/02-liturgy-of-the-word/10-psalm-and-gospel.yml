@@ -29,8 +29,8 @@ sections:
           - english: "Stand up in the fear of God and listen to the Holy Gospel. A reading from the Gospel according to Saint (...), may his blessings, be with us all. (Amen.)"
             arabic: "قفوا بخوف الله لسماع الإنجيل المقدس، فصل من الإنجيل لمعلمنا مار (...) البشير، بركته على جميعنا"
 
-          - english: "(The Psalm is said)"
-            arabic: "(يقال المزمور)"
+    - type: reading
+      readingType: liturgy-psalm
 
     - speaker: people
       verses:
@@ -39,10 +39,8 @@ sections:
             coptic_english: "Alleluia"
             arabic: "هلليلويا"
 
-    - speaker: reader
-      verses:
-          - english: "(The Gospel is said)"
-            arabic: "(يقال الإنجيل)"
+    - type: reading
+      readingType: liturgy-gospel
 
     - speaker: people
       verses:

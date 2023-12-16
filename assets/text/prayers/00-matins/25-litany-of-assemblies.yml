@@ -46,7 +46,7 @@ sections:
             coptic_english: ""
             arabic: "بيوت صلاة، بيوت طهارة، بيوت بركة، أنعم بها لنا يا رب، ولعبيدك الآتين بعدنا إلى الأبد"
 
-    - speaker: info
+    - type: info
       text:
           english: "The following may be said"
           arabic: "يمكن يقال الآتي"

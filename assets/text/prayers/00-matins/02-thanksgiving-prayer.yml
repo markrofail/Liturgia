@@ -115,7 +115,7 @@ sections:
           #   coptic_english: ""
           #   arabic: "هذا الذي من قبله المجد والإكرام والعزة والسجود تليق بك معه، مع الروح القدس المحيي المساوي لك. الآن وكل أوان وإلى دهر الدهور. آمين"
 
-    - speaker: info
+    - type: info
       text:
           english: "The priest raises the incense while the Verses of Cymbals are chanted"
           coptic: ""

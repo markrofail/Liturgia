@@ -42,7 +42,7 @@ sections:
             coptic_english: ""
             arabic: "إمضوا بسلام. الرب مع جميعكم"
 
-    - speaker: info
+    - type: info
       text:
           english: "Or he says"
           arabic: "أو يقول"

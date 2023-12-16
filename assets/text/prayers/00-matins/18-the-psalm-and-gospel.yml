@@ -36,13 +36,16 @@ sections:
             coptic_english: ""
             arabic: "المجد لك يا رب"
 
+    - type: reading
+      readingType: matins-psalm
+
     - speaker: reader
       verses:
           - english: "Stand up in the fear of God and listen to the Holy Gospel. A reading from the Gospel according to Saint (...), may his blessings, be with us all. (Amen.)"
             arabic: "قفوا بخوف الله لسماع الإنجيل المقدس، فصل من الإنجيل لمعلمنا مار (...) البشير، بركته على جميعنا"
 
-          - english: "(The Gospel is said)"
-            arabic: "(يقال الإنجيل)"
+    - type: reading
+      readingType: matins-gospel
 
     - speaker: people
       verses:

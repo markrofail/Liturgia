@@ -10,8 +10,8 @@ sections:
             # coptic_english: ""
             arabic: "بولس عبد ربنا يسوع المسيح. الرسول المدعو المفرز لكرازة الله"
 
-          - english: "(The Pauline Epistle)"
-            arabic: "(البولس)"
+          - type: reading
+            readingType: pauline-epistle
 
           - english: "The grace of God the Father be with you all. Amen"
             # coptic: "Ⲡⲓϩ̀ⲙⲟⲧ ⲅⲁⲣ ⲛⲉⲙⲱⲧⲉⲛ ⲛⲉⲙ ⲧ̀ϩⲓⲣⲏⲛⲏ ⲉⲩⲥⲟⲡ ϫⲉ ⲁ̀ⲙⲏⲛ ⲉⲥⲉ̀ϣⲱⲡⲓ"

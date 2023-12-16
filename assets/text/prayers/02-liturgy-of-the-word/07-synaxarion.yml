@@ -3,6 +3,5 @@ title:
     arabic: "السنكسار"
 
 sections:
-    - speaker: "reader"
-      verses:
-          - english: ""
+    - type: reading
+      readingType: synaxarium
