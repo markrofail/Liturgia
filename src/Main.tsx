@@ -1,22 +1,30 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { GlobalRefsProvider, initDefaultGlobalRefs } from "./hooks/useGlobalRefs";
 import { DrawerButton, DrawerContent } from "./screens/DrawerContent";
 import { HomeScreen } from "./screens/HomeScreen";
-import { ActivePrayerProvider } from "./hooks/useActivePrayer";
 
 const Drawer = createDrawerNavigator();
 
 export const Main = () => {
-    const [activeId, setActiveId] = useState("");
+    const liturgyContainerRef = useRef(null);
+    const [currentPrayerId, setCurrentPrayerId] = useState("");
+
+    const globalRefs = initDefaultGlobalRefs({
+        liturgyContainerRef,
+        currentPrayerId,
+        setCurrentPrayerId,
+    });
 
     return (
-        <ActivePrayerProvider value={{ activeId, setActiveId }}>
+        <GlobalRefsProvider value={globalRefs}>
             <Drawer.Navigator
-                drawerContent={DrawerContent}
+                initialRouteName="Home"
+                drawerContent={() => <DrawerContent />}
                 screenOptions={{ headerTitle: "", headerTransparent: true, headerLeft: DrawerButton }}
             >
-                <Drawer.Screen name="Liturgia" component={HomeScreen} />
+                <Drawer.Screen name="Home" component={HomeScreen} />
             </Drawer.Navigator>
-        </ActivePrayerProvider>
+        </GlobalRefsProvider>
     );
 };
