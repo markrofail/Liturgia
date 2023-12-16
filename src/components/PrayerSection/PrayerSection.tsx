@@ -1,18 +1,20 @@
 import React from "react";
 import { View } from "react-native";
-import { Verse } from "../Verse";
-import { Hint } from "./Hint";
-import { SpeakerLabel } from "../Prayer/SpeakerLabel";
-import { PrayerSection as PrayerSectionT } from "../../types";
 import { ZOOM_MULTIPLIER } from "../../constants";
+import { InfoSection } from "./InfoSection";
+import { VersesSection } from "./VersesSection";
+import { ReadingSection } from "./ReadingSection";
 
-interface PrayerSectionProps extends PrayerSectionT {}
+interface PrayerSectionProps {
+    type?: "info" | "verses" | "reading";
+}
 
-export const PrayerSection = ({ speaker, verses, text }: PrayerSectionProps) => {
+export const PrayerSection = ({ type, ...props }: PrayerSectionProps) => {
     return (
         <View style={{ marginBottom: 15 * ZOOM_MULTIPLIER }}>
-            {!!speaker && <SpeakerLabel speaker={speaker} />}
-            {speaker === "info" ? <Hint {...text} /> : verses?.map((verse, i) => <Verse key={i} verse={verse} />)}
+            {type === "info" && <InfoSection {...props} />}
+            {type === "reading" && <ReadingSection {...props} />}
+            {(!type || type === "verses") && <VersesSection {...props} />}
         </View>
     );
 };
