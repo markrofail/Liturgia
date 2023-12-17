@@ -1,43 +1,69 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Icon, Text, TouchableRipple } from "react-native-paper";
+import React, { Fragment, useEffect, useRef } from "react";
+import { Drawer, Icon, TouchableRipple } from "react-native-paper";
 import { ScrollView, View } from "react-native";
-import { useActivePrayer } from "../../hooks/useActivePrayer";
-import { DrawerActions, useNavigation } from "@react-navigation/native";
-import { getCopticDate } from "../../utils/CopticCalendar";
-import { Drawer } from "react-native-paper";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
-import liturgy from "../../../resources/prayers/st-basil-liturgy";
+import { getCopticDate } from "../../utils/copticCalendar";
+import liturgy from "../../data/st-basil-liturgy";
 import { Liturgy, Prayer } from "../../types";
+import { ZOOM_MULTIPLIER } from "../../constants";
+import { useGlobalRefs } from "../../hooks/useGlobalRefs";
+import { Text } from "../../components/Text";
+import { DrawerActions } from "@react-navigation/routers";
+import { useNavigation } from "@react-navigation/core";
+import { measureComponents } from "../../utils/measureComponents";
 
 export const DrawerContent = () => {
-    const { activeId } = useActivePrayer();
-    const scrollRef = useRef<ScrollView>();
-    const [prayerMap, setPrayerMap] = useState<Record<string, number>>({});
+    const { currentPrayerId } = useGlobalRefs();
+    const scrollRef = useRef<ScrollView>(null);
+
+    const prayers: Prayer[] = liturgy.flatMap(({ prayers }) => prayers);
+    const prayerRefMap = Object.fromEntries(prayers.map((prayer) => [prayer.id, useRef<View>(null)]));
 
     useEffect(() => {
-        scrollRef?.current?.scrollTo({ y: prayerMap[activeId], animated: false });
-    }, [activeId]);
+        async function updateScrollPosition() {
+            const prayerMap = await measureComponents(prayerRefMap);
+            const newY = prayerMap[currentPrayerId].y;
+
+            scrollRef?.current?.scrollTo({ y: newY });
+        }
+
+        currentPrayerId && updateScrollPosition();
+    }, [currentPrayerId]);
 
     return (
-        <View style={{ flex: 1, backgroundColor: "black", padding: 20 }}>
-            <CopticDate />
+        <View style={{ flex: 1, backgroundColor: "black", paddingHorizontal: 12, height: 300 }}>
+            <Drawer.Section>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 25,
+                        paddingVertical: 20,
+                    }}
+                >
+                    <CopticDate />
+                </View>
+            </Drawer.Section>
+
             <DrawerContentScrollView ref={scrollRef}>
                 {(liturgy as Liturgy).map(({ title, prayers }) => (
-                    <Drawer.Section title={title} key={title} style={{ marginBottom: 10 }}>
+                    <Fragment key={title}>
                         {prayers.map((prayer, i) => (
-                            <View
-                                key={prayer.id}
-                                onLayout={(event: any) => {
-                                    setPrayerMap((prayerMap) => ({
-                                        ...prayerMap,
-                                        [prayer.id]: event?.nativeEvent?.layout?.y,
-                                    }));
-                                }}
-                            >
-                                <MenuEntry index={i} prayer={prayer} />
-                            </View>
+                            <Fragment key={prayer.id}>
+                                {i === 0 && (
+                                    <View
+                                        style={{ marginTop: 25 * ZOOM_MULTIPLIER, marginBottom: 10 * ZOOM_MULTIPLIER }}
+                                    >
+                                        <Text variant="menuEntry" language="english" text={title} />
+                                    </View>
+                                )}
+                                <View ref={prayerRefMap[prayer.id]}>
+                                    <MenuEntry index={i} prayer={prayer} />
+                                </View>
+                            </Fragment>
                         ))}
-                    </Drawer.Section>
+                    </Fragment>
                 ))}
             </DrawerContentScrollView>
         </View>
@@ -48,22 +74,17 @@ const CopticDate = () => {
     const { day, month, year } = getCopticDate();
 
     return (
-        <Drawer.Section>
-            <View
-                style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginBottom: 10,
-                    gap: 10,
-                }}
-            >
-                <Icon source="calendar" size={20} />
-                <Text variant="bodyLarge" style={{ fontWeight: "bold" }}>
-                    {day} {month} {year}
-                </Text>
-            </View>
-        </Drawer.Section>
+        <View
+            style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 10,
+            }}
+        >
+            <Icon source="calendar" size={20} />
+            <Text variant="date" language="english" text={`${day} ${month} ${year}`} />
+        </View>
     );
 };
 
@@ -72,11 +93,10 @@ interface MenuEntry {
     prayer: Prayer;
 }
 const MenuEntry = ({ index, prayer: { id, title } }: MenuEntry) => {
-    const { activeId, setActiveId } = useActivePrayer();
     const navigation = useNavigation();
-
-    const isActive = id === activeId;
-    const textStyles = { color: isActive ? "black" : "white" };
+    const { currentPrayerId, setCurrentPrayerId } = useGlobalRefs();
+    const toggleDrawer = () => navigation.dispatch(DrawerActions.toggleDrawer());
+    const isActive = id === currentPrayerId;
 
     return (
         <TouchableRipple
@@ -88,17 +108,15 @@ const MenuEntry = ({ index, prayer: { id, title } }: MenuEntry) => {
                 backgroundColor: isActive ? "white" : "transparent",
             }}
             onPress={() => {
-                setActiveId(id);
-                navigation.dispatch(DrawerActions.toggleDrawer());
+                toggleDrawer();
+                setCurrentPrayerId(id);
             }}
         >
             <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-                <Text style={{ ...textStyles, fontSize: 20 }}>{index + 1}</Text>
+                <Text variant="menuEntryIndex" inverse={isActive} text={`${index + 1}`} />
                 <View>
-                    {!!title.english && <Text style={textStyles}>{title.english}</Text>}
-                    {!!title.arabic && (
-                        <Text style={{ ...textStyles, fontFamily: "Rubik_400Regular" }}>{title.arabic}</Text>
-                    )}
+                    <Text variant="menuEntry" language="english" inverse={isActive} text={title.english} />
+                    <Text variant="menuEntry" language="arabic" inverse={isActive} text={title.arabic} />
                 </View>
             </View>
         </TouchableRipple>

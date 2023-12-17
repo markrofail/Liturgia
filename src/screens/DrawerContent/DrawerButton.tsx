@@ -4,6 +4,7 @@ import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 export const DrawerButton = () => {
     const navigation = useNavigation();
+    const toggleDrawer = () => navigation.dispatch(DrawerActions.toggleDrawer());
 
     return (
         <FAB
@@ -11,7 +12,7 @@ export const DrawerButton = () => {
             color="black"
             size="small"
             style={{ backgroundColor: "white", borderRadius: 100, marginTop: 5, marginLeft: 5 }}
-            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+            onPress={toggleDrawer}
         />
     );
 };
