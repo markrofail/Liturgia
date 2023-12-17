@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text as TextBase, View } from "react-native";
 import { ZOOM_MULTIPLIER } from "../../constants";
 
-
 type Spacing = "xs" | "s" | "m" | "l" | "xl";
 type Variant = "title" | "heading" | "body" | "date" | "menuEntry" | "menuEntryIndex";
 type Language = "english" | "coptic" | "coptic_english" | "arabic";

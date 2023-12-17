@@ -17,7 +17,7 @@ export type PrayerSection = {
     verses?: MultiLingualText[];
 };
 
-export type Speaker = "priest" | "deacon" | "people" | "reader" | "info";
+export type Speaker = "priest" | "deacon" | "reader" | "people";
 
 export type MultiLingualText = {
     english?: string;
