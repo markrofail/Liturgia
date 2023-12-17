@@ -1,7 +1,7 @@
 import React, { Fragment, useMemo } from "react";
 import { MultiLingualText } from "../Text";
 import { ZOOM_MULTIPLIER } from "../../constants";
-import { ReadingType, Synaxarium, getReadings } from "../../utils/getReadings";
+import { Reading, ReadingType, Synaxarium, getReadings } from "../../utils/getReadings";
 
 export interface ReadingSectionProps {
     readingType?: ReadingType;
@@ -15,7 +15,7 @@ export const ReadingSection = ({ readingType }: ReadingSectionProps) => {
         <>
             <MultiLingualText variant="heading" gap={16 * ZOOM_MULTIPLIER} text={readingText.title} />
             {readingType !== "synaxarium" ? (
-                <MultiLingualText variant="body" gap={16 * ZOOM_MULTIPLIER} text={readingText.text} />
+                <MultiLingualText variant="body" gap={16 * ZOOM_MULTIPLIER} text={(readingText as Reading).text} />
             ) : (
                 (readingText as Synaxarium).commemorations.map((commemoration, i) => (
                     <Fragment key={i}>
