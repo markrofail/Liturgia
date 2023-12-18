@@ -1,0 +1,25 @@
+{
+  "title": {
+    "english": "The Catholic Epistle",
+    "arabic": "الكاثوليكون"
+  },
+  "sections": [
+    {
+      "speaker": "reader",
+      "verses": [
+        {
+          "english": "The catholic [epistle] from the epistle of our father (St. James/Judah), my beloved",
+          "arabic": "الكاثوليكون من رسالة ابينا (يعقوب، يهوذا)، يا أحبائى"
+        },
+        {
+          "type": "reading",
+          "readingType": "catholic-epistle"
+        },
+        {
+          "english": "Do not love the world nor the things in the world. The world passes away, and its desires; but he who does the will of God abides forever. Amen",
+          "arabic": "لا تحبوا العالم ولا الأشياء التي في العالم، العالم يمضى وشهواته، وأما الذي يصنع إرادة الله يدوم إلى الأبد. آمين"
+        }
+      ]
+    }
+  ]
+}

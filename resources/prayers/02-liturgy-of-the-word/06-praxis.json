@@ -1,0 +1,25 @@
+{
+  "title": {
+    "english": "The Acts",
+    "arabic": "الإبركسيس"
+  },
+  "sections": [
+    {
+      "speaker": "reader",
+      "verses": [
+        {
+          "english": "The Acts of our fathers the apostles, may their blessings be with us",
+          "arabic": "فصل من اعمال آبائنا الرسل الأطهار، بركتهم تكون معنا"
+        },
+        {
+          "type": "reading",
+          "readingType": "acts-of-the-apostles"
+        },
+        {
+          "english": "The word of the Lord shall grow, multiply, be mighty, and be confirmed in the holy Church of God. Amen",
+          "arabic": "لم تزل كلمة الرب تنو وتعتز وتثبت في كنيسة الله المقدسة. آمين"
+        }
+      ]
+    }
+  ]
+}
