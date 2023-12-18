@@ -1,8 +1,8 @@
 import { Dispatch, MutableRefObject, SetStateAction, createContext, useContext } from "react";
-import { ScrollView } from "react-native";
+import { FlatList } from "react-native";
 
 interface GlobalRefs {
-    liturgyContainerRef: MutableRefObject<ScrollView | null>;
+    liturgyContainerRef: MutableRefObject<FlatList | null>;
     currentPrayerId: string;
     setCurrentPrayerId: Dispatch<SetStateAction<string>>;
 }

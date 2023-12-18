@@ -1,34 +1,28 @@
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Drawer, Icon, TouchableRipple } from "react-native-paper";
-import { ScrollView, View } from "react-native";
-import { DrawerContentScrollView } from "@react-navigation/drawer";
+import { FlatList, View } from "react-native";
 import { getCopticDate } from "../../utils/copticCalendar";
 import liturgy from "../../data/st-basil-liturgy";
-import { Liturgy, Prayer } from "../../types";
-import { ZOOM_MULTIPLIER } from "../../constants";
+import { Prayer } from "../../types";
 import { useGlobalRefs } from "../../hooks/useGlobalRefs";
 import { Text } from "../../components/Text";
 import { DrawerActions } from "@react-navigation/routers";
 import { useNavigation } from "@react-navigation/core";
-import { measureComponents } from "../../utils/measureComponents";
+import { ZOOM_MULTIPLIER } from "../../constants";
 
 export const DrawerContent = () => {
     const { currentPrayerId } = useGlobalRefs();
-    const scrollRef = useRef<ScrollView>(null);
-
-    const prayers: Prayer[] = liturgy.flatMap(({ prayers }) => prayers);
-    const prayerRefMap = Object.fromEntries(prayers.map((prayer) => [prayer.id, useRef<View>(null)]));
+    const scrollRef = useRef<FlatList>(null);
+    const prayers = liturgy.flatMap(({ prayers }) => prayers);
 
     useEffect(() => {
-        async function updateScrollPosition() {
-            const prayerMap = await measureComponents(prayerRefMap);
-            const newY = prayerMap[currentPrayerId].y;
+        console.debug(JSON.stringify({ event: "onCurrentPrayerIdChange (drawer)", currentPrayerId }));
 
-            scrollRef?.current?.scrollTo({ y: newY });
-        }
-
-        currentPrayerId && updateScrollPosition();
+        const currentPrayer = prayers.find(({ id }) => id === currentPrayerId);
+        scrollRef?.current?.scrollToItem({ item: currentPrayer, animated: false });
     }, [currentPrayerId]);
+
+    const getSectionTitle = (prayerId: string) => liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
 
     return (
         <View style={{ flex: 1, backgroundColor: "black", paddingHorizontal: 12, height: 300 }}>
@@ -46,26 +40,31 @@ export const DrawerContent = () => {
                 </View>
             </Drawer.Section>
 
-            <DrawerContentScrollView ref={scrollRef}>
-                {(liturgy as Liturgy).map(({ title, prayers }) => (
-                    <Fragment key={title}>
-                        {prayers.map((prayer, i) => (
-                            <Fragment key={prayer.id}>
-                                {i === 0 && (
-                                    <View
-                                        style={{ marginTop: 25 * ZOOM_MULTIPLIER, marginBottom: 10 * ZOOM_MULTIPLIER }}
-                                    >
-                                        <Text variant="menuEntry" language="english" text={title} />
-                                    </View>
-                                )}
-                                <View ref={prayerRefMap[prayer.id]}>
-                                    <MenuEntry index={i} prayer={prayer} />
-                                </View>
-                            </Fragment>
-                        ))}
-                    </Fragment>
-                ))}
-            </DrawerContentScrollView>
+            <FlatList
+                ref={scrollRef}
+                data={prayers}
+                keyExtractor={(prayer) => prayer.id}
+                renderItem={({ item, index }) => (
+                    <>
+                        {getSectionTitle(item.id) && (
+                            <View
+                                style={{
+                                    marginTop: index !== 0 ? 25 * ZOOM_MULTIPLIER : undefined,
+                                    marginBottom: 10 * ZOOM_MULTIPLIER,
+                                }}
+                            >
+                                <Text variant="menuEntry" language="english" text={getSectionTitle(item.id)} />
+                            </View>
+                        )}
+                        <MenuEntry index={index} prayer={item} />
+                    </>
+                )}
+                initialNumToRender={prayers.length}
+                viewabilityConfig={{
+                    itemVisiblePercentThreshold: 100,
+                    minimumViewTime: 200,
+                }}
+            />
         </View>
     );
 };

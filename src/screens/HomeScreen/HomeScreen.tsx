@@ -1,88 +1,57 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { View, ScrollView } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { View, ViewToken, FlatList } from "react-native";
 import { Prayer } from "../../components/Prayer";
 import liturgy from "../../data/st-basil-liturgy";
-import { ZOOM_MULTIPLIER } from "../../constants";
 import { useGlobalRefs } from "../../hooks/useGlobalRefs";
+import { Prayer as PrayerT } from "src/types";
+import { ZOOM_MULTIPLIER } from "../../constants";
 import { Text } from "../../components/Text";
-import { measureComponents } from "../../utils/measureComponents";
 
 export const HomeScreen = () => {
-    const [currentY, setCurrentY] = useState(0);
-    const { currentPrayerId, setCurrentPrayerId, liturgyContainerRef } = useGlobalRefs();
-
+    const { currentPrayerId, setCurrentPrayerId, liturgyContainerRef: scrollRef } = useGlobalRefs();
     const prayers = liturgy.flatMap(({ prayers }) => prayers);
-    const prayerIds = prayers.map(({ id }) => id);
-    const prayerRefMap = Object.fromEntries(prayers.map((prayer) => [prayer.id, useRef<View>(null)]));
 
     useEffect(() => {
-        setCurrentPrayerId(prayerIds[0]);
-    }, []);
+        console.debug(JSON.stringify({ event: "onCurrentPrayerIdChange (screen)", currentPrayerId }));
 
-    useEffect(() => {
-        async function updateScrollPosition() {
-            const prayerMap = await measureComponents(prayerRefMap);
-
-            const nextPrayer = prayerIds[prayerIds.indexOf(currentPrayerId) + 1];
-            const nextY = prayerMap[nextPrayer].y;
-
-            const activeY = prayerMap[currentPrayerId].y;
-            const activePrayerBounds = { top: activeY, bottom: nextY };
-
-            const shouldScroll = currentY < activePrayerBounds.top || currentY > activePrayerBounds.bottom;
-            if (shouldScroll) {
-                liturgyContainerRef?.current?.scrollTo({ y: activeY, animated: false });
-            }
-            // console.log(JSON.stringify({ activeY, shouldScroll }));
-        }
-
-        currentPrayerId && updateScrollPosition();
+        const currentPrayer = prayers.find(({ id }) => id === currentPrayerId);
+        scrollRef?.current?.scrollToItem({ item: currentPrayer, animated: false });
     }, [currentPrayerId]);
 
-    useEffect(() => {
-        async function updateActivePrayer() {
-            const prayerMap = await measureComponents(prayerRefMap);
+    const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<ViewToken> }) => {
+        const visiblePrayer = viewableItems[0].item as PrayerT;
+        console.debug(
+            JSON.stringify({ event: "onVisiblePrayerChanged", visiblePrayer: visiblePrayer.id, currentPrayerId })
+        );
 
-            const nextPrayer = prayerIds[prayerIds.indexOf(currentPrayerId) + 1];
-            const nextY = prayerMap[nextPrayer].y;
+        if (visiblePrayer.id !== currentPrayerId) setCurrentPrayerId(visiblePrayer.id);
+    }).current;
 
-            const prevPrayer = prayerIds[prayerIds.indexOf(currentPrayerId) - 1];
-            const activeY = prayerMap[currentPrayerId].y;
-
-            if (currentY > nextY) {
-                setCurrentPrayerId(nextPrayer);
-            } else if (currentY < activeY) {
-                setCurrentPrayerId(prevPrayer);
-            }
-        }
-
-        currentPrayerId && updateActivePrayer();
-    }, [currentY]);
+    const getSectionTitle = (prayerId: string) => liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
 
     return (
         <View style={{ flex: 1, backgroundColor: "black" }}>
-            <ScrollView
-                ref={liturgyContainerRef}
-                style={{ flex: 1, paddingHorizontal: 12 }}
-                scrollEventThrottle={30}
-                contentContainerStyle={{ flexGrow: 1 }}
-                onScroll={(event) => setCurrentY(event.nativeEvent.contentOffset.y)}
-            >
-                {liturgy.map(({ title, prayers }) => (
-                    <Fragment key={title}>
-                        {prayers.map((prayer, i) => (
-                            <Fragment key={prayer.id}>
-                                {i === 0 && (
-                                    <View style={{ marginBottom: 18 * ZOOM_MULTIPLIER }}>
-                                        <Text variant="title" language="english" text={title} />
-                                    </View>
-                                )}
-                                <Prayer {...prayer} ref={prayerRefMap[prayer.id]} />
-                            </Fragment>
-                        ))}
-                    </Fragment>
-                ))}
-            </ScrollView>
+            <FlatList
+                ref={scrollRef}
+                data={prayers}
+                keyExtractor={(prayer) => prayer.id}
+                renderItem={({ item }) => (
+                    <>
+                        {getSectionTitle(item.id) && (
+                            <View style={{ marginBottom: 18 * ZOOM_MULTIPLIER }}>
+                                <Text variant="title" language="english" text={getSectionTitle(item.id)} />
+                            </View>
+                        )}
+                        <Prayer {...item} />
+                    </>
+                )}
+                onViewableItemsChanged={onViewableItemsChanged}
+                viewabilityConfig={{
+                    itemVisiblePercentThreshold: 100,
+                    minimumViewTime: 200,
+                }}
+                initialNumToRender={1000}
+            />
         </View>
     );
 };

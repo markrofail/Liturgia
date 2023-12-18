@@ -5,17 +5,11 @@ import { PrayerSection } from "../PrayerSection";
 import { ZOOM_MULTIPLIER } from "../../constants";
 import { MultiLingualText } from "../Text";
 
-interface PrayerProps extends PrayerT {
-    onLayout?: (event: LayoutChangeEvent) => void;
-}
+interface PrayerProps extends PrayerT {}
 
-export const Prayer = forwardRef(({ onLayout, title, sections }: PrayerProps, ref) => {
+export const Prayer = ({ title, sections }: PrayerProps) => {
     return (
-        <View
-            ref={ref}
-            style={{ marginTop: 10 * ZOOM_MULTIPLIER, marginBottom: 50 * ZOOM_MULTIPLIER }}
-            onLayout={onLayout}
-        >
+        <View style={{ marginTop: 10 * ZOOM_MULTIPLIER, marginBottom: 50 * ZOOM_MULTIPLIER }}>
             {/* Prayer Title */}
             <View style={{ marginBottom: 25 * ZOOM_MULTIPLIER }}>
                 <MultiLingualText variant="heading" text={title} centered />
@@ -27,4 +21,4 @@ export const Prayer = forwardRef(({ onLayout, title, sections }: PrayerProps, re
             ))}
         </View>
     );
-});
+};
