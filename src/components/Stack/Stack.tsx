@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
-import { ZOOM_MULTIPLIER } from "../../constants";
+import { getZoomMultiplier } from "../../settings";
 
 export type Spacing = "xs" | "s" | "m" | "l" | "xl";
 export type Direction = "row" | "column";
@@ -26,6 +26,7 @@ export const Stack = ({ spaceAbove, spaceBelow, gap, direction, centered, childr
     return <View style={styles}>{children}</View>;
 };
 
+const ZOOM_MULTIPLIER = getZoomMultiplier();
 const gapStyles = StyleSheet.create({
     none: {},
     xs: { gap: 4 * ZOOM_MULTIPLIER },

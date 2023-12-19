@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text as TextBase, View } from "react-native";
-import { ZOOM_MULTIPLIER } from "../../constants";
+import { getZoomMultiplier } from "../../settings";
 
 type Variant = "title" | "heading" | "body" | "date" | "menuEntry" | "menuEntryIndex";
 export type Language = "english" | "coptic" | "coptic_english" | "arabic";
@@ -38,6 +38,7 @@ const languageStyles = StyleSheet.create({
     arabic: { fontFamily: "Rubik_400Regular", writingDirection: "rtl" },
 });
 
+const ZOOM_MULTIPLIER = getZoomMultiplier();
 const variantStyles = StyleSheet.create({
     title: {
         fontWeight: "bold",
