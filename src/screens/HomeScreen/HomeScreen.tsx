@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { View, ViewToken, FlatList } from "react-native";
+import { ViewToken, FlatList, SafeAreaView } from "react-native";
 import { Prayer } from "../../components/Prayer";
 import liturgy from "../../data/st-basil-liturgy";
 import { useGlobalRefs } from "../../hooks/useGlobalRefs";
 import { Prayer as PrayerT } from "src/types";
-import { ZOOM_MULTIPLIER } from "../../constants";
 import { Text } from "../../components/Text";
+import { Stack } from "../../components/Stack";
 
 export const HomeScreen = () => {
     const { currentPrayerId, setCurrentPrayerId, liturgyContainerRef: scrollRef } = useGlobalRefs();
@@ -30,7 +30,7 @@ export const HomeScreen = () => {
     const getSectionTitle = (prayerId: string) => liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
 
     return (
-        <View style={{ flex: 1, backgroundColor: "black" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
             <FlatList
                 ref={scrollRef}
                 data={prayers}
@@ -38,9 +38,9 @@ export const HomeScreen = () => {
                 renderItem={({ item }) => (
                     <>
                         {getSectionTitle(item.id) && (
-                            <View style={{ marginBottom: 18 * ZOOM_MULTIPLIER }}>
+                            <Stack spaceBelow="m">
                                 <Text variant="title" language="english" text={getSectionTitle(item.id)} />
-                            </View>
+                            </Stack>
                         )}
                         <Prayer {...item} />
                     </>
@@ -52,6 +52,6 @@ export const HomeScreen = () => {
                 }}
                 initialNumToRender={1000}
             />
-        </View>
+        </SafeAreaView>
     );
 };

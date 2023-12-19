@@ -2,15 +2,12 @@ import React from "react";
 import { StyleSheet, Text as TextBase, View } from "react-native";
 import { ZOOM_MULTIPLIER } from "../../constants";
 
-type Spacing = "xs" | "s" | "m" | "l" | "xl";
 type Variant = "title" | "heading" | "body" | "date" | "menuEntry" | "menuEntryIndex";
-type Language = "english" | "coptic" | "coptic_english" | "arabic";
+export type Language = "english" | "coptic" | "coptic_english" | "arabic";
 
 export interface TextProps {
     language?: Language;
     variant: Variant;
-    spaceBelow?: Spacing;
-    spaceAbove?: Spacing;
     text?: string;
     fill?: boolean;
     color?: string;
@@ -39,14 +36,6 @@ const languageStyles = StyleSheet.create({
     coptic: { fontFamily: "CopticForAll" },
     coptic_english: { fontFamily: "NotoSerif_400Regular" },
     arabic: { fontFamily: "Rubik_400Regular", writingDirection: "rtl" },
-});
-
-const spacingStyles = StyleSheet.create({
-    xs: { marginBottom: 4 * ZOOM_MULTIPLIER },
-    s: { marginBottom: 8 * ZOOM_MULTIPLIER },
-    m: { marginBottom: 16 * ZOOM_MULTIPLIER },
-    l: { marginBottom: 24 * ZOOM_MULTIPLIER },
-    xl: { marginBottom: 32 * ZOOM_MULTIPLIER },
 });
 
 const variantStyles = StyleSheet.create({

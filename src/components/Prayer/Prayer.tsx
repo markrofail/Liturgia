@@ -1,24 +1,23 @@
-import React, { forwardRef } from "react";
-import { View, LayoutChangeEvent } from "react-native";
+import React from "react";
 import { Prayer as PrayerT } from "../../types";
 import { PrayerSection } from "../PrayerSection";
-import { ZOOM_MULTIPLIER } from "../../constants";
-import { MultiLingualText } from "../Text";
+import { MultiLingualText } from "../MultiLingualText";
+import { Stack } from "../Stack";
 
 interface PrayerProps extends PrayerT {}
 
 export const Prayer = ({ title, sections }: PrayerProps) => {
     return (
-        <View style={{ marginTop: 10 * ZOOM_MULTIPLIER, marginBottom: 50 * ZOOM_MULTIPLIER }}>
+        <Stack spaceAbove="s" spaceBelow="xl">
             {/* Prayer Title */}
-            <View style={{ marginBottom: 25 * ZOOM_MULTIPLIER }}>
+            <Stack spaceBelow="l">
                 <MultiLingualText variant="heading" text={title} centered />
-            </View>
+            </Stack>
 
             {/* Prayer Body */}
             {sections.map((section, i) => (
                 <PrayerSection key={i} {...section} />
             ))}
-        </View>
+        </Stack>
     );
 };

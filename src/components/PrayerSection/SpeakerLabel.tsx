@@ -1,8 +1,7 @@
 import React from "react";
-import { View } from "react-native";
-import { MultiLingualText } from "../Text";
+import { MultiLingualText } from "../MultiLingualText";
 import { Speaker, MultiLingualText as MultiLingualTextT } from "../../types";
-import { ZOOM_MULTIPLIER } from "../../constants";
+import { Stack } from "../Stack";
 
 export const LABEL_MAP: Record<Speaker, MultiLingualTextT & { color: string }> = {
     priest: { english: "Priest", arabic: "الكاهن", coptic: "Ⲡⲓⲟⲩⲏⲃ", color: "#ff4000" },
@@ -19,8 +18,8 @@ export const SpeakerLabel = ({ speaker }: SpeakerLabelProps) => {
     const { english, arabic, color } = LABEL_MAP[speaker];
 
     return (
-        <View style={{ marginBottom: 8 * ZOOM_MULTIPLIER }}>
+        <Stack spaceBelow="s">
             <MultiLingualText variant="body" color={color} text={{ english, arabic }} />
-        </View>
+        </Stack>
     );
 };

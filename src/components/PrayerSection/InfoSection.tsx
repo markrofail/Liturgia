@@ -1,5 +1,5 @@
 import React from "react";
-import { MultiLingualText } from "../Text";
+import { MultiLingualText } from "../MultiLingualText";
 import { MultiLingualText as MultiLingualTextT } from "../../types";
 
 interface InfoSectionProps {

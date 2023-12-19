@@ -1,9 +1,8 @@
 import React from "react";
-import { View } from "react-native";
-import { ZOOM_MULTIPLIER } from "../../constants";
 import { InfoSection } from "./InfoSection";
 import { VersesSection } from "./VersesSection";
 import { ReadingSection } from "./ReadingSection";
+import { Stack } from "../Stack";
 
 interface PrayerSectionProps {
     type?: "info" | "verses" | "reading";
@@ -11,10 +10,10 @@ interface PrayerSectionProps {
 
 export const PrayerSection = ({ type, ...props }: PrayerSectionProps) => {
     return (
-        <View style={{ marginBottom: 15 * ZOOM_MULTIPLIER }}>
+        <Stack spaceBelow="m">
             {type === "info" && <InfoSection {...props} />}
             {type === "reading" && <ReadingSection {...props} />}
             {(!type || type === "verses") && <VersesSection {...props} />}
-        </View>
+        </Stack>
     );
 };

@@ -1,17 +1,19 @@
 import React, { useEffect, useRef } from "react";
-import { Drawer, Icon, TouchableRipple } from "react-native-paper";
+import { Drawer, Icon, IconButton, TouchableRipple } from "react-native-paper";
 import { FlatList, View } from "react-native";
 import { getCopticDate } from "../../utils/copticCalendar";
 import liturgy from "../../data/st-basil-liturgy";
 import { Prayer } from "../../types";
 import { useGlobalRefs } from "../../hooks/useGlobalRefs";
 import { Text } from "../../components/Text";
+import { MultiLingualText } from "../../components/MultiLingualText";
 import { DrawerActions } from "@react-navigation/routers";
 import { useNavigation } from "@react-navigation/core";
-import { ZOOM_MULTIPLIER } from "../../constants";
+import { Stack } from "../../components/Stack";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const DrawerContent = () => {
-    const { currentPrayerId } = useGlobalRefs();
+    const { currentPrayerId, toggleSettingsOpen } = useGlobalRefs();
     const scrollRef = useRef<FlatList>(null);
     const prayers = liturgy.flatMap(({ prayers }) => prayers);
 
@@ -25,7 +27,7 @@ export const DrawerContent = () => {
     const getSectionTitle = (prayerId: string) => liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
 
     return (
-        <View style={{ flex: 1, backgroundColor: "black", paddingHorizontal: 12, height: 300 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "black", paddingHorizontal: 12, height: 300 }}>
             <Drawer.Section>
                 <View
                     style={{
@@ -37,6 +39,7 @@ export const DrawerContent = () => {
                     }}
                 >
                     <CopticDate />
+                    <IconButton icon="cog" onPress={toggleSettingsOpen} />
                 </View>
             </Drawer.Section>
 
@@ -47,14 +50,9 @@ export const DrawerContent = () => {
                 renderItem={({ item, index }) => (
                     <>
                         {getSectionTitle(item.id) && (
-                            <View
-                                style={{
-                                    marginTop: index !== 0 ? 25 * ZOOM_MULTIPLIER : undefined,
-                                    marginBottom: 10 * ZOOM_MULTIPLIER,
-                                }}
-                            >
+                            <Stack spaceBelow="m">
                                 <Text variant="menuEntry" language="english" text={getSectionTitle(item.id)} />
-                            </View>
+                            </Stack>
                         )}
                         <MenuEntry index={index} prayer={item} />
                     </>
@@ -65,7 +63,7 @@ export const DrawerContent = () => {
                     minimumViewTime: 200,
                 }}
             />
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -111,13 +109,15 @@ const MenuEntry = ({ index, prayer: { id, title } }: MenuEntry) => {
                 setCurrentPrayerId(id);
             }}
         >
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <Stack direction="row" gap="s">
                 <Text variant="menuEntryIndex" inverse={isActive} text={`${index + 1}`} />
-                <View>
-                    <Text variant="menuEntry" language="english" inverse={isActive} text={title.english} />
-                    <Text variant="menuEntry" language="arabic" inverse={isActive} text={title.arabic} />
-                </View>
-            </View>
+                <MultiLingualText
+                    direction="column"
+                    variant="menuEntry"
+                    inverse={isActive}
+                    text={{ english: title.english, arabic: title.arabic }}
+                />
+            </Stack>
         </TouchableRipple>
     );
 };

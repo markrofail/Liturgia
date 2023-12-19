@@ -1,9 +1,8 @@
 import React from "react";
-import { View } from "react-native";
-import { MultiLingualText } from "../Text";
-import { ZOOM_MULTIPLIER } from "../../constants";
+import { MultiLingualText } from "../MultiLingualText";
 import { SpeakerLabel } from "./SpeakerLabel";
 import { Speaker, MultiLingualText as MultiLingualTextT } from "../../types";
+import { Stack } from "../Stack";
 
 interface VersesSectionProps {
     speaker?: Speaker;
@@ -13,14 +12,13 @@ export const VersesSection = ({ speaker, verses }: VersesSectionProps) => {
     return (
         <>
             {!!speaker && <SpeakerLabel speaker={speaker} />}
-            <View style={{ marginBottom: 10 * ZOOM_MULTIPLIER }}>
-                {!!verses &&
-                    verses.map((verse, i) => (
-                        <View key={i} style={{ marginBottom: 10 * ZOOM_MULTIPLIER }}>
-                            <MultiLingualText variant="body" gap={16 * ZOOM_MULTIPLIER} text={verse} />
-                        </View>
-                    ))}
-            </View>
+
+            {!!verses &&
+                verses.map((verse, i) => (
+                    <Stack spaceBelow="m" key={i}>
+                        <MultiLingualText variant="body" gap="m" text={verse} />
+                    </Stack>
+                ))}
         </>
     );
 };
