@@ -1,7 +1,6 @@
 import React from "react";
-import { MultiLingualText } from "../MultiLingualText";
 import { Speaker, MultiLingualText as MultiLingualTextT } from "../../types";
-import { Stack } from "../Stack";
+import { MultiLingualText, Stack } from "..";
 
 export const LABEL_MAP: Record<Speaker, MultiLingualTextT & { color: string }> = {
     priest: { english: "Priest", arabic: "الكاهن", coptic: "Ⲡⲓⲟⲩⲏⲃ", color: "#ff4000" },

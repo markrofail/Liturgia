@@ -5,11 +5,9 @@ import { getCopticDate } from "../../utils/copticCalendar";
 import liturgy from "../../data/st-basil-liturgy";
 import { Prayer } from "../../types";
 import { useGlobalRefs } from "../../hooks/useGlobalRefs";
-import { Text } from "../../components/Text";
-import { MultiLingualText } from "../../components/MultiLingualText";
+import { MultiLingualText, Text, Stack } from "../../components";
 import { DrawerActions } from "@react-navigation/routers";
 import { useNavigation } from "@react-navigation/core";
-import { Stack } from "../../components/Stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export const DrawerContent = () => {

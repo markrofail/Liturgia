@@ -4,8 +4,7 @@ import { Prayer } from "../../components/Prayer";
 import liturgy from "../../data/st-basil-liturgy";
 import { useGlobalRefs } from "../../hooks/useGlobalRefs";
 import { Prayer as PrayerT } from "src/types";
-import { Text } from "../../components/Text";
-import { Stack } from "../../components/Stack";
+import { Text, Stack } from "../../components";
 
 export const HomeScreen = () => {
     const { currentPrayerId, setCurrentPrayerId, liturgyContainerRef: scrollRef } = useGlobalRefs();

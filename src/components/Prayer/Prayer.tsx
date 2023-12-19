@@ -1,8 +1,7 @@
 import React from "react";
 import { Prayer as PrayerT } from "../../types";
 import { PrayerSection } from "../PrayerSection";
-import { MultiLingualText } from "../MultiLingualText";
-import { Stack } from "../Stack";
+import { MultiLingualText, Stack } from "..";
 
 interface PrayerProps extends PrayerT {}
 

@@ -1,8 +1,7 @@
 import React from "react";
-import { MultiLingualText } from "../MultiLingualText";
-import { SpeakerLabel } from "./SpeakerLabel";
 import { Speaker, MultiLingualText as MultiLingualTextT } from "../../types";
-import { Stack } from "../Stack";
+import { SpeakerLabel } from "./SpeakerLabel";
+import { MultiLingualText, Stack } from "..";
 
 interface VersesSectionProps {
     speaker?: Speaker;

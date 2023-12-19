@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo } from "react";
-import { MultiLingualText } from "../MultiLingualText";
 import { Reading, ReadingType, Synaxarium, getReadings } from "../../utils/getReadings";
+import { MultiLingualText } from "..";
 
 export interface ReadingSectionProps {
     readingType?: ReadingType;

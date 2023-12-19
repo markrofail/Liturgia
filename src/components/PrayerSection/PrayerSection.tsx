@@ -2,7 +2,7 @@ import React from "react";
 import { InfoSection } from "./InfoSection";
 import { VersesSection } from "./VersesSection";
 import { ReadingSection } from "./ReadingSection";
-import { Stack } from "../Stack";
+import { Stack } from "..";
 
 interface PrayerSectionProps {
     type?: "info" | "verses" | "reading";
