@@ -1,16 +1,8 @@
-import React, { useState } from "react";
-import { storage, getZoomMultiplier } from "../../settings";
+import React from "react";
 import {
-    Button,
-    ButtonText,
-    Center,
     CloseIcon,
-    HStack,
     Heading,
     Icon,
-    Input,
-    InputField,
-    InputSlot,
     Modal,
     ModalBackdrop,
     ModalBody,
@@ -18,15 +10,10 @@ import {
     ModalContent,
     ModalFooter,
     ModalHeader,
-    Slider,
-    SliderFilledTrack,
-    SliderThumb,
-    SliderTrack,
-    Text,
-    Tooltip,
-    TooltipContent,
     VStack,
 } from "@gluestack-ui/themed";
+import { FontSizeSlider } from "./FontSizeSlider";
+import { ChangeDateCalendar } from "./ChangeDateCalendar";
 
 interface SettingsModalProps {
     open: boolean;
@@ -34,12 +21,6 @@ interface SettingsModalProps {
 }
 
 export const SettingsModal = ({ open, onClose }: SettingsModalProps) => {
-    const [fontSize, setFontSize] = useState<number>(getZoomMultiplier() * 10);
-    const onFontSizeChange = (value: number) => {
-        setFontSize(value);
-        storage.set("fontSize", value / 10);
-    };
-
     return (
         <Modal isOpen={open} onClose={onClose}>
             <ModalBackdrop />
@@ -54,36 +35,8 @@ export const SettingsModal = ({ open, onClose }: SettingsModalProps) => {
                 </ModalHeader>
                 <ModalBody>
                     <VStack space="lg">
-                        <HStack space="md">
-                            <Text size="md" color="white" bold>
-                                Font Size
-                            </Text>
-                            <Tooltip
-                                placement={"top"}
-                                trigger={(triggerProps) => (
-                                    <Center w="$80">
-                                        <Slider
-                                            minValue={0}
-                                            step={1}
-                                            maxValue={30}
-                                            sliderTrackHeight={5}
-                                            size="md"
-                                            value={fontSize}
-                                            onChange={(value) => onFontSizeChange(value)}
-                                        >
-                                            <SliderTrack>
-                                                <SliderFilledTrack bg="$white" />
-                                            </SliderTrack>
-                                            <SliderThumb bg="$white" {...triggerProps} />
-                                        </Slider>
-                                    </Center>
-                                )}
-                            >
-                                <TooltipContent>
-                                    <Text color="white">{fontSize}</Text>
-                                </TooltipContent>
-                            </Tooltip>
-                        </HStack>
+                        <FontSizeSlider />
+                        <ChangeDateCalendar />
                     </VStack>
                 </ModalBody>
                 <ModalFooter></ModalFooter>
