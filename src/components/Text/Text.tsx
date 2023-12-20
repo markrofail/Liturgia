@@ -15,10 +15,11 @@ export interface TextProps {
 }
 
 export const Text = ({ fill, language, variant, color, inverse, text }: TextProps) => {
+    const zoomMultiplier = getZoomMultiplier();
     const styles = {
         color: color ?? (inverse ? "black" : "white"),
         ...languageStyles[language ?? "english"],
-        ...variantStyles[variant],
+        ...variantStyles(zoomMultiplier)[variant],
     };
     if (!!color) styles.color = color;
 
@@ -38,29 +39,29 @@ const languageStyles = StyleSheet.create({
     arabic: { fontFamily: "Rubik_400Regular", writingDirection: "rtl" },
 });
 
-const ZOOM_MULTIPLIER = getZoomMultiplier();
-const variantStyles = StyleSheet.create({
-    title: {
-        fontWeight: "bold",
-        textAlign: "center",
-        fontSize: 36 * ZOOM_MULTIPLIER,
-        lineHeight: 42 * ZOOM_MULTIPLIER,
-    },
-    heading: {
-        textAlign: "center",
-        fontSize: 28 * ZOOM_MULTIPLIER,
-        lineHeight: 30 * ZOOM_MULTIPLIER,
-    },
-    body: {
-        fontSize: 18 * ZOOM_MULTIPLIER,
-        lineHeight: 26 * ZOOM_MULTIPLIER,
-    },
-    date: {},
-    menuEntry: {
-        writingDirection: "ltr",
-        textAlign: "left",
-    },
-    menuEntryIndex: {
-        fontSize: 20,
-    },
-});
+const variantStyles = (zoomMultiplier: number) =>
+    StyleSheet.create({
+        title: {
+            fontWeight: "bold",
+            textAlign: "center",
+            fontSize: 36 * zoomMultiplier,
+            lineHeight: 42 * zoomMultiplier,
+        },
+        heading: {
+            textAlign: "center",
+            fontSize: 28 * zoomMultiplier,
+            lineHeight: 30 * zoomMultiplier,
+        },
+        body: {
+            fontSize: 18 * zoomMultiplier,
+            lineHeight: 26 * zoomMultiplier,
+        },
+        date: {},
+        menuEntry: {
+            writingDirection: "ltr",
+            textAlign: "left",
+        },
+        menuEntryIndex: {
+            fontSize: 20,
+        },
+    });

@@ -1,18 +1,16 @@
 import React from "react";
-import { FAB } from "react-native-paper";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { Box, Button, ButtonIcon, MenuIcon } from "@gluestack-ui/themed";
 
 export const DrawerButton = () => {
     const navigation = useNavigation();
     const toggleDrawer = () => navigation.dispatch(DrawerActions.toggleDrawer());
 
     return (
-        <FAB
-            icon="menu"
-            color="black"
-            size="small"
-            style={{ backgroundColor: "white", borderRadius: 100, marginTop: 5, marginLeft: 5 }}
-            onPress={toggleDrawer}
-        />
+        <Box padding={10}>
+            <Button borderRadius="$full" size="lg" p="$3.5" bg="$white" borderColor="$white" onPress={toggleDrawer}>
+                <ButtonIcon color="black" as={MenuIcon} />
+            </Button>
+        </Box>
     );
 };

@@ -5,12 +5,16 @@ interface GlobalRefs {
     liturgyContainerRef: MutableRefObject<FlatList | null>;
     currentPrayerId: string;
     setCurrentPrayerId: Dispatch<SetStateAction<string>>;
+    settingsOpen: boolean;
+    toggleSettingsOpen: () => void;
 }
 
 export const initDefaultGlobalRefs = (overrides?: Partial<GlobalRefs>): GlobalRefs => ({
     liturgyContainerRef: { current: null },
     currentPrayerId: "",
     setCurrentPrayerId: () => {},
+    settingsOpen: false,
+    toggleSettingsOpen: () => {},
     ...overrides,
 });
 
