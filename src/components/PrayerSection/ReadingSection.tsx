@@ -1,13 +1,15 @@
 import React, { Fragment, useMemo } from "react";
 import { Reading, ReadingType, Synaxarium, getReadings } from "../../utils/getReadings";
 import { MultiLingualText } from "..";
+import { getGlobalDate } from "../../settings";
 
 export interface ReadingSectionProps {
     readingType?: ReadingType;
 }
 
 export const ReadingSection = ({ readingType }: ReadingSectionProps) => {
-    const readingText = useMemo(() => readingType && getReadings(readingType), []);
+    const globalDate = getGlobalDate();
+    const readingText = useMemo(() => readingType && getReadings(globalDate, readingType), [globalDate, readingType]);
 
     if (!readingText) return null;
     return (

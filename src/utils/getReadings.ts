@@ -8780,9 +8780,9 @@ const SYNAXARIUM_MAP: Record<string, () => Synaxarium> = {
     "tout-9": () => require("../../resources/readings/synaxarium/tout-9.json"),
 };
 
-export const getReadings = (readingType: ReadingType) => {
+export const getReadings = (globalDate: Date, readingType: ReadingType) => {
     if (readingType === "synaxarium") {
-        const { month, day } = getCopticDate();
+        const { month, day } = getCopticDate(globalDate);
         const filename = `${month}-${day}`.toLowerCase();
 
         if (!SYNAXARIUM_MAP[filename]) {
@@ -8791,13 +8791,13 @@ export const getReadings = (readingType: ReadingType) => {
         }
         return SYNAXARIUM_MAP[filename]();
     } else {
-        const date = new Date();
+        const date = globalDate;
         const { month, year, day } = { day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear() };
         const filename = `${year}-${month}-${day}`.toLowerCase();
 
         if (!READINGS_MAP[filename][readingType]) {
             console.log(JSON.stringify({ readingType, filename, msg: "Can't find it" }));
-            // console.log(JSON.stringify({ fn: READINGS_MAP[filename][readingType] }));
+            console.log(JSON.stringify({ fn: READINGS_MAP[filename][readingType] }));
         }
         return READINGS_MAP[filename][readingType]();
     }
