@@ -1,17 +1,16 @@
 import React, { useEffect, useRef } from "react";
-import { Drawer, Icon, IconButton, TouchableRipple } from "react-native-paper";
-import { FlatList, View } from "react-native";
-import { getCopticDate } from "../../utils/copticCalendar";
+import { FlatList } from "react-native";
 import liturgy from "../../data/st-basil-liturgy";
 import { Prayer } from "../../types";
 import { useGlobalRefs } from "../../hooks/useGlobalRefs";
-import { MultiLingualText, Text, Stack } from "../../components";
 import { DrawerActions } from "@react-navigation/routers";
 import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { DrawerHeader } from "./DrawerHeader";
+import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 
 export const DrawerContent = () => {
-    const { currentPrayerId, toggleSettingsOpen } = useGlobalRefs();
+    const { currentPrayerId } = useGlobalRefs();
     const scrollRef = useRef<FlatList>(null);
     const prayers = liturgy.flatMap(({ prayers }) => prayers);
 
@@ -25,35 +24,24 @@ export const DrawerContent = () => {
     const getSectionTitle = (prayerId: string) => liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "black", paddingHorizontal: 12, height: 300 }}>
-            <Drawer.Section>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 25,
-                        paddingVertical: 20,
-                    }}
-                >
-                    <CopticDate />
-                    <IconButton icon="cog" onPress={toggleSettingsOpen} />
-                </View>
-            </Drawer.Section>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "black", paddingHorizontal: 12 }}>
+            <DrawerHeader />
 
             <FlatList
                 ref={scrollRef}
                 data={prayers}
                 keyExtractor={(prayer) => prayer.id}
                 renderItem={({ item, index }) => (
-                    <>
+                    <Box marginBottom={12}>
                         {getSectionTitle(item.id) && (
-                            <Stack spaceBelow="m">
-                                <Text variant="menuEntry" language="english" text={getSectionTitle(item.id)} />
-                            </Stack>
+                            <Box paddingTop={index !== 0 ? 14 : undefined} paddingBottom={6}>
+                                <Text color="$white" size="lg" bold>
+                                    {getSectionTitle(item.id)}
+                                </Text>
+                            </Box>
                         )}
                         <MenuEntry index={index} prayer={item} />
-                    </>
+                    </Box>
                 )}
                 initialNumToRender={prayers.length}
                 viewabilityConfig={{
@@ -62,24 +50,6 @@ export const DrawerContent = () => {
                 }}
             />
         </SafeAreaView>
-    );
-};
-
-const CopticDate = () => {
-    const { day, month, year } = getCopticDate();
-
-    return (
-        <View
-            style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 10,
-            }}
-        >
-            <Icon source="calendar" size={20} />
-            <Text variant="date" language="english" text={`${day} ${month} ${year}`} />
-        </View>
     );
 };
 
@@ -94,28 +64,29 @@ const MenuEntry = ({ index, prayer: { id, title } }: MenuEntry) => {
     const isActive = id === currentPrayerId;
 
     return (
-        <TouchableRipple
-            borderless
-            style={{
-                paddingVertical: 8,
-                paddingHorizontal: 20,
-                borderRadius: 100,
-                backgroundColor: isActive ? "white" : "transparent",
-            }}
+        <Pressable
+            bgColor={isActive ? "white" : "transparent"}
+            paddingVertical={6}
+            paddingHorizontal={20}
+            borderRadius="$full"
             onPress={() => {
                 toggleDrawer();
                 setCurrentPrayerId(id);
             }}
         >
-            <Stack direction="row" gap="s">
-                <Text variant="menuEntryIndex" inverse={isActive} text={`${index + 1}`} />
-                <MultiLingualText
-                    direction="column"
-                    variant="menuEntry"
-                    inverse={isActive}
-                    text={{ english: title.english, arabic: title.arabic }}
-                />
-            </Stack>
-        </TouchableRipple>
+            <HStack alignItems="center" space="lg">
+                <Text size="xl" color={isActive ? "$black" : "$white"}>
+                    {index + 1}
+                </Text>
+                <VStack>
+                    <Text color={isActive ? "$black" : "$white"} direction="ltr">
+                        {title.english}
+                    </Text>
+                    <Text color={isActive ? "$black" : "$white"} direction="ltr">
+                        {title.arabic}
+                    </Text>
+                </VStack>
+            </HStack>
+        </Pressable>
     );
 };

@@ -8,8 +8,8 @@ export const DrawerButton = () => {
 
     return (
         <Box padding={10}>
-            <Button borderRadius="$full" size="lg" p="$3.5" bg="$white" borderColor="$white" onPress={toggleDrawer}>
-                <ButtonIcon color="black" as={MenuIcon} />
+            <Button borderRadius="$full" size="lg" p="$2.5" bg="$white" borderColor="$white" onPress={toggleDrawer}>
+                <ButtonIcon color="black" as={MenuIcon} size="xl" />
             </Button>
         </Box>
     );
