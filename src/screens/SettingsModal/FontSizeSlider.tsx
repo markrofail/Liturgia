@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { storage, getZoomMultiplier } from "../../settings";
 import {
     Center,
     HStack,
@@ -11,12 +10,13 @@ import {
     Tooltip,
     TooltipContent,
 } from "@gluestack-ui/themed";
+import * as settings from "../../settings";
 
 export const FontSizeSlider = () => {
-    const [fontSize, setFontSize] = useState<number>(getZoomMultiplier() * 10);
+    const [fontSize, setFontSize] = useState<number>(settings.getFontSize());
     const onFontSizeChange = (value: number) => {
         setFontSize(value);
-        storage.set("fontSize", value / 10);
+        settings.setFontSize(value);
     };
 
     return (

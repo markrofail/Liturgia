@@ -13,8 +13,8 @@ export const ChangeDateCalendar = () => {
     const copticDate = getCopticDate(currentDate);
     const isDifferent = new Date().toDateString() !== currentDate.toDateString();
 
-    const dateStr = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
-    const copticDateStr = `${copticDate.day}/${copticDate.month}/${copticDate.year}`;
+    const dateStr = `${currentDate.getDate()} ${currentDate.getMonth() + 1} ${currentDate.getFullYear()}`;
+    const copticDateStr = `${copticDate.day} ${copticDate.month} ${copticDate.year}`;
 
     const dateISO = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
     useEffect(() => {
@@ -23,7 +23,7 @@ export const ChangeDateCalendar = () => {
     }, [dateISO]);
 
     return (
-        <VStack>
+        <VStack space="lg">
             <HStack space="lg">
                 <HStack space="lg">
                     <HStack space="lg">

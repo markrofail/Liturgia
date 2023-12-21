@@ -24,8 +24,8 @@ export const SettingsModal = ({ open, onClose }: SettingsModalProps) => {
     return (
         <Modal isOpen={open} onClose={onClose}>
             <ModalBackdrop />
-            <ModalContent sx={{ backgroundColor: "$black" }}>
-                <ModalHeader>
+            <ModalContent bgColor="$black">
+                <ModalHeader paddingBottom={24}>
                     <Heading size="lg" color="white">
                         Settings
                     </Heading>
@@ -34,7 +34,7 @@ export const SettingsModal = ({ open, onClose }: SettingsModalProps) => {
                     </ModalCloseButton>
                 </ModalHeader>
                 <ModalBody>
-                    <VStack space="lg">
+                    <VStack space="xl">
                         <FontSizeSlider />
                         <ChangeDateCalendar />
                     </VStack>
