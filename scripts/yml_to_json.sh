@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Traverse the current directory and its subdirectories
-cd "assets/text"
+cd "resources"
 find . -type f -name "*.yml" -print0 | while IFS= read -r -d $'\0' yml_file; do
     # Generate the corresponding JSON filename
     json_file="${yml_file%.yml}.json"

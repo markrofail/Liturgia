@@ -3,6 +3,9 @@ import * as path from "path";
 import * as cheerio from "cheerio";
 import { stringify } from "yaml";
 
+const normalizeArabicText = (text: string) =>
+    text.replace(/([^\u0621-\u063A\u0641-\u064A\u0660-\u0669a-zA-Z 0-9\u064B-\u064D:-])/g, "");
+
 const getText = (node: cheerio.Cheerio) => node?.text()?.trim().replaceAll(/\s+/g, " ");
 
 const getTitleAndText = (node: cheerio.Cheerio) => ({
@@ -24,69 +27,36 @@ const extractGospel = ($: cheerio.Root, text: string) => {
     return getTitleAndText(gospelNode);
 };
 
-const extractReadings = (html: string) => {
-    const $ = cheerio.load(html);
-
-    const matinsPsalm = extractPsalm($, "matins");
-    const matinsGospel = extractGospel($, "matins");
-    const vespersPsalm = extractPsalm($, "vespers");
-    const vespersGospel = extractGospel($, "vespers");
-    const liturgyPsalm = extractPsalm($, "liturgy-gospel");
-    const liturgyGospel = extractGospel($, "liturgy-gospel");
-    const paulineEpistle = extractReading($, "liturgy-pauline");
-    const catholicEpistle = extractReading($, "liturgy-catholic");
-    const actsOfTheApostles = extractReading($, "liturgy-acts");
-
-    return {
-        matinsPsalm,
-        matinsGospel,
-        vespersPsalm,
-        vespersGospel,
-        liturgyPsalm,
-        liturgyGospel,
-        paulineEpistle,
-        catholicEpistle,
-        actsOfTheApostles,
-    };
+const READING_EXTRACTORS = {
+    "matins-psalm": ($: cheerio.Root) => extractPsalm($, "matins"),
+    "matins-gospel": ($: cheerio.Root) => extractGospel($, "matins"),
+    "vespers-psalm": ($: cheerio.Root) => extractPsalm($, "vespers"),
+    "vespers-gospel": ($: cheerio.Root) => extractGospel($, "vespers"),
+    "liturgy-psalm": ($: cheerio.Root) => extractPsalm($, "liturgy-gospel"),
+    "liturgy-gospel": ($: cheerio.Root) => extractGospel($, "liturgy-gospel"),
+    "pauline-epistle": ($: cheerio.Root) => extractReading($, "liturgy-pauline"),
+    "catholic-epistle": ($: cheerio.Root) => extractReading($, "liturgy-catholic"),
+    "acts-of-the-apostles": ($: cheerio.Root) => extractReading($, "liturgy-acts"),
 };
-
-const normalizeArabicText = (text: string) =>
-    text.replace(/([^\u0621-\u063A\u0641-\u064A\u0660-\u0669a-zA-Z 0-9\u064B-\u064D])/g, "");
-
-type Reading = { title: string; text: string };
-const unifyLanguages = (en: Reading, ar: Reading) => ({
-    title: { english: en.title, arabic: normalizeArabicText(ar.title) },
-    text: { english: en.text, arabic: normalizeArabicText(ar.text) },
-});
 
 const convertHTMLFileToYAML = (filePath: string) => {
     const htmlEn = fs.readFileSync(filePath, "utf-8");
-    const readingsEn = extractReadings(htmlEn);
+    const cheerioEn = cheerio.load(htmlEn);
 
     const htmlAr = fs.readFileSync(filePath.replace(".en", ".ar"), "utf-8");
-    const readingsAr = extractReadings(htmlAr);
+    const cheerioAr = cheerio.load(htmlAr);
 
-    const readingsUnified = {
-        matinsPsalm: unifyLanguages(readingsEn.matinsPsalm, readingsAr.matinsPsalm),
-        matinsGospel: unifyLanguages(readingsEn.matinsGospel, readingsAr.matinsGospel),
-        vespersPsalm: unifyLanguages(readingsEn.vespersPsalm, readingsAr.vespersPsalm),
-        vespersGospel: unifyLanguages(readingsEn.vespersGospel, readingsAr.vespersGospel),
-        liturgyPsalm: unifyLanguages(readingsEn.liturgyPsalm, readingsAr.liturgyPsalm),
-        liturgyGospel: unifyLanguages(readingsEn.liturgyGospel, readingsAr.liturgyGospel),
-        paulineEpistle: unifyLanguages(readingsEn.paulineEpistle, readingsAr.paulineEpistle),
-        catholicEpistle: unifyLanguages(readingsEn.catholicEpistle, readingsAr.catholicEpistle),
-        actsOfTheApostles: unifyLanguages(readingsEn.actsOfTheApostles, readingsAr.actsOfTheApostles),
-    };
+    Object.entries(READING_EXTRACTORS).forEach(([readingType, extractReading]) => {
+        const readingEn = extractReading(cheerioEn);
+        const readingAr = extractReading(cheerioAr);
 
-    fs.writeFileSync(getYmlFilePath(filePath, "matins-psalm"), stringify(readingsUnified.matinsPsalm));
-    fs.writeFileSync(getYmlFilePath(filePath, "matins-gospel"), stringify(readingsUnified.matinsGospel));
-    fs.writeFileSync(getYmlFilePath(filePath, "vespers-psalm"), stringify(readingsUnified.vespersPsalm));
-    fs.writeFileSync(getYmlFilePath(filePath, "vespers-gospel"), stringify(readingsUnified.vespersGospel));
-    fs.writeFileSync(getYmlFilePath(filePath, "liturgy-psalm"), stringify(readingsUnified.liturgyPsalm));
-    fs.writeFileSync(getYmlFilePath(filePath, "liturgy-gospel"), stringify(readingsUnified.liturgyGospel));
-    fs.writeFileSync(getYmlFilePath(filePath, "pauline-epistle"), stringify(readingsUnified.paulineEpistle));
-    fs.writeFileSync(getYmlFilePath(filePath, "catholic-epistle"), stringify(readingsUnified.catholicEpistle));
-    fs.writeFileSync(getYmlFilePath(filePath, "acts-of-the-apostles"), stringify(readingsUnified.actsOfTheApostles));
+        const reading = {
+            title: { english: readingEn.title, arabic: readingAr.title },
+            text: { english: readingEn.text, arabic: normalizeArabicText(readingAr.text) },
+        };
+
+        fs.writeFileSync(getYmlFilePath(filePath, readingType), stringify(reading));
+    });
 
     console.log(`Conversion completed for: ${filePath}`);
 };

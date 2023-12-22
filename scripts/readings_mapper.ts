@@ -1,29 +1,32 @@
 import * as fs from "fs";
+import * as path from "path";
 
-const generateMap = (startDate: Date, endDate: Date) => {
-    const oneDay = 24 * 60 * 60 * 1000; // milliseconds in one day
-    const map: Record<string, any> = {};
+const PROJECT_ROOT = path.join(__dirname, "..");
+const READINGS_ROOT = path.join(PROJECT_ROOT, "resources/readings");
 
-    for (let date = startDate; date <= endDate; date = new Date(date.getTime() + oneDay)) {
-        const formattedDate = date.toISOString().split("T")[0]; // format date to YYYY-MM-DD
-        const filepath = (readingType: string) => `../../assets/text/readings/${readingType}/${formattedDate}.json`;
+const getSubDirectories = (directory: string) =>
+    fs
+        .readdirSync(directory)
+        .map((filepath) => path.join(directory, filepath))
+        .filter((filepath) => fs.statSync(filepath).isDirectory());
 
-        map[formattedDate] = {
-            "matins-psalm": filepath("matins-psalm"),
-            "matins-gospel": filepath("matins-gospel"),
-            "vespers-psalm": filepath("vespers-psalm"),
-            "vespers-gospel": filepath("vespers-gospel"),
-            "liturgy-psalm": filepath("liturgy-psalm"),
-            "liturgy-gospel": filepath("liturgy-gospel"),
-            "pauline-epistle": filepath("pauline-epistle"),
-            "catholic-epistle": filepath("catholic-epistle"),
-            "acts-of-the-apostles": filepath("acts-of-the-apostles"),
-        };
-    }
+const getResources = (directory: string) =>
+    fs
+        .readdirSync(directory)
+        .filter((file) => path.extname(file) === ".json")
+        .map((file) => path.basename(file, ".json"));
 
-    return map;
-};
+const generateIndexFile = (directory: string, resources: string[]) => `export default {
+${resources.map((file) => `    "${file}": () => require("@${directory}/${file}.json"),`).join("\n")}
+};`;
 
-const map = generateMap(new Date("2023-12-01"), new Date("2026-01-01"));
-console.log(JSON.stringify(map, null, 2));
-fs.writeFileSync("./readings_map.json", JSON.stringify(map, null, 2));
+const subDirectories = getSubDirectories(READINGS_ROOT);
+subDirectories.forEach((subDir) => {
+    const relative = path.relative(PROJECT_ROOT, subDir);
+    const resources = getResources(subDir);
+    const generatedFile = generateIndexFile(relative, resources);
+
+    const outputPath = path.join(subDir, "index.ts");
+    console.log(`Generated resource map ${outputPath}`);
+    fs.writeFileSync(outputPath, generatedFile);
+});
