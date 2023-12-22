@@ -4,6 +4,7 @@ import { VStack, Text, Icon, ChevronRightIcon, ChevronLeftIcon, Center, HStack }
 import * as settings from "../../settings";
 import { getCopticDate } from "../../utils/copticCalendar";
 import { Switch } from "@gluestack-ui/themed";
+import { getGeorgianDateString } from "@/utils/dateUtils";
 
 export const ChangeDateCalendar = () => {
     const [overrideDate, setOverrideDate] = useState(settings.getOverrideDate());
@@ -13,7 +14,7 @@ export const ChangeDateCalendar = () => {
     const copticDate = getCopticDate(currentDate);
     const isDifferent = new Date().toDateString() !== currentDate.toDateString();
 
-    const dateStr = `${currentDate.getDate()} ${currentDate.getMonth() + 1} ${currentDate.getFullYear()}`;
+    const dateStr = getGeorgianDateString(currentDate);
     const copticDateStr = `${copticDate.day} ${copticDate.month} ${copticDate.year}`;
 
     const dateISO = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
@@ -26,19 +27,27 @@ export const ChangeDateCalendar = () => {
         <VStack space="lg">
             <HStack space="lg">
                 <HStack space="lg">
-                    <HStack space="lg">
-                        <Text size="md" color="white" bold>
-                            Current Date
-                        </Text>
-                        <Text size="md" color={isDifferent ? "#ede61c" : "white"} bold={isDifferent}>
-                            {dateStr} - {copticDateStr}
-                        </Text>
-                    </HStack>
-                    <Text size="md" color="white">
-                        override
+                    <Text size="md" color="white" bold>
+                        Current Date
                     </Text>
-                    <Switch value={isOverridden} onToggle={setIsOverridden} />
+                    <Text size="md" color={isDifferent ? "#ede61c" : "white"} bold={isDifferent}>
+                        {dateStr}
+                    </Text>
                 </HStack>
+            </HStack>
+            <HStack space="lg">
+                <Text size="md" color="white" bold>
+                    Coptic Date
+                </Text>
+                <Text size="md" color={isDifferent ? "#ede61c" : "white"} bold={isDifferent}>
+                    {copticDateStr}
+                </Text>
+            </HStack>
+            <HStack space="lg" alignItems="center">
+                <Text size="md" color="white" bold>
+                    Override Date
+                </Text>
+                <Switch height={10} value={isOverridden} onToggle={setIsOverridden} />
             </HStack>
             {isOverridden && (
                 <Calendar

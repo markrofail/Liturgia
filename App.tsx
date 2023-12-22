@@ -1,8 +1,9 @@
 import "react-native-gesture-handler";
 
 import React from "react";
+import { GluestackUIProvider } from "@gluestack-ui/themed";
+import { config } from "@gluestack-ui/config";
 import { NavigationContainer } from "@react-navigation/native";
-import { MD3DarkTheme, PaperProvider } from "react-native-paper";
 import { useCustomFonts } from "./src/hooks/useCustomFonts";
 import { Main } from "./src/Main";
 import { StatusBar } from "expo-status-bar";
@@ -13,10 +14,10 @@ export default function App() {
 
     return (
         <NavigationContainer>
-            <PaperProvider theme={MD3DarkTheme}>
+            <GluestackUIProvider config={config}>
                 <Main />
                 <StatusBar style="dark" />
-            </PaperProvider>
+            </GluestackUIProvider>
         </NavigationContainer>
     );
 }

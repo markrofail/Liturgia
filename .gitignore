@@ -33,3 +33,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+./**/*.html
+resources/text/prayers/**/*.json
+resources/text/readings/**/*.json
+resources-raw

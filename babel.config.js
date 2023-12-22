@@ -9,15 +9,13 @@ module.exports = function (api) {
                 {
                     alias: {
                         "@assets": "./assets",
+                        "@resources": "./resources",
+                        "@components": "./src/components",
+                        "@": "./src",
                     },
                     extensions: [".js", ".jsx", ".ts", ".tsx"],
                 },
             ],
         ],
-        env: {
-            production: {
-                plugins: ["react-native-paper/babel"],
-            },
-        },
     };
 };

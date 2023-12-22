@@ -4,6 +4,7 @@ import { GlobalRefsProvider, initDefaultGlobalRefs } from "./hooks/useGlobalRefs
 import { DrawerButton, DrawerContent } from "./screens/DrawerContent";
 import { HomeScreen } from "./screens/HomeScreen";
 import { SettingsModal } from "./screens/SettingsModal";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const Drawer = createDrawerNavigator();
 
@@ -24,13 +25,15 @@ export const Main = () => {
     return (
         <GlobalRefsProvider value={globalRefs}>
             <SettingsModal open={settingsOpen} onClose={toggleSettingsOpen} />
-            <Drawer.Navigator
-                initialRouteName="Home"
-                drawerContent={() => <DrawerContent />}
-                screenOptions={{ headerTitle: "", headerTransparent: true, headerLeft: DrawerButton }}
-            >
-                <Drawer.Screen name="Home" component={HomeScreen} />
-            </Drawer.Navigator>
+            <SafeAreaProvider>
+                <Drawer.Navigator
+                    initialRouteName="Home"
+                    drawerContent={() => <DrawerContent />}
+                    screenOptions={{ headerTitle: "", headerTransparent: true, headerLeft: DrawerButton }}
+                >
+                    <Drawer.Screen name="Home" component={HomeScreen} />
+                </Drawer.Navigator>
+            </SafeAreaProvider>
         </GlobalRefsProvider>
     );
 };

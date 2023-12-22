@@ -10,7 +10,7 @@ export const Prayer = ({ title, sections }: PrayerProps) => {
         <Stack spaceAbove="s" spaceBelow="xl">
             {/* Prayer Title */}
             <Stack spaceBelow="l">
-                <MultiLingualText variant="heading" text={title} centered />
+                <MultiLingualText variant="heading" text={{ english: title.english, arabic: title.arabic }} centered />
             </Stack>
 
             {/* Prayer Body */}

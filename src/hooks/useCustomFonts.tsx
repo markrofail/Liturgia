@@ -8,5 +8,5 @@ export const useCustomFonts = () =>
         Rubik_700Bold,
         NotoSerif_400Regular,
         NotoSerif_700Bold,
-        CopticForAll: require("../../assets/fonts/CopticForAll.ttf"),
+        CopticForAll: require("@assets/fonts/CopticForAll.ttf"),
     });
