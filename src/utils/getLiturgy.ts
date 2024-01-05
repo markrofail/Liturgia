@@ -7,24 +7,21 @@ import { Prayer } from "@/types";
 import slugify from "slugify";
 
 type RawPrayer = Omit<Prayer, "id">
+type Index = Record<string, Promise<RawPrayer>>
 
-const generatePrayerId = (prefix: string, prayer: RawPrayer) => {
-    if (!prayer.title) console.log(prefix, JSON.stringify(prayer));
-    return slugify(`${prefix} ${prayer.title.english}`.toLowerCase());
-};
+export const generatePrayerIds = (prefix: string, index: Index) =>
+    Object.entries(index).map(([filename, content]) => ({
+        id: slugify(`${prefix} ${filename}`).toLowerCase(),
+        content
+    }))
 
-export const generatePrayerIds = (prefix: string, prayers: RawPrayer[]): Prayer[] =>
-    prayers.map((prayer, i) => ({
-        ...prayer,
-        id: generatePrayerId(`${prefix} ${i}`, prayer),
-    }));
-
-export const getLiturgy = async () => {
+export const getLiturgy = () => {
     return [
-        { "title": "Matins", prayers: generatePrayerIds("0-matins", await Promise.all(Object.values(MatinsIndex)) as RawPrayer[]) },
-        { "title": "The Offertory", prayers: generatePrayerIds("1-offertory-of-the-lamb", await Promise.all(Object.values(TheOffertoryIndex)) as RawPrayer[]) },
-        { "title": "Liturgy Of The Word", prayers: generatePrayerIds("2-liturgy-of-the-word", await Promise.all(Object.values(LiturgyOfTheWordIndex)) as RawPrayer[]) },
-        { "title": "Liturgy Of The Believers", prayers: generatePrayerIds("3-liturgy-of-the-believers", await Promise.all(Object.values(LiturgyOfTheBelieversIndex)) as RawPrayer[]) },
-        { "title": "Distribution", prayers: generatePrayerIds("4-distribution", await Promise.all(Object.values(DistributionIndex)) as RawPrayer[]) }
+        { "title": "Matins", prayers: generatePrayerIds("0-matins", MatinsIndex as Index) },
+        { "title": "The Offertory", prayers: generatePrayerIds("01-offertory-of-the-lamb", TheOffertoryIndex as Index) },
+        { "title": "Liturgy Of The Word", prayers: generatePrayerIds("02-liturgy-of-the-word", LiturgyOfTheWordIndex as Index) },
+        { "title": "Liturgy Of The Believers", prayers: generatePrayerIds("03-liturgy-of-the-believers", LiturgyOfTheBelieversIndex as Index) },
+        { "title": "Distribution", prayers: generatePrayerIds("04-distribution", DistributionIndex as Index) }
     ]
 };
+

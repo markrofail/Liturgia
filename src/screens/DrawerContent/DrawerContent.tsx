@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
-import { Liturgy, Prayer } from "../../types";
+import { Prayer } from "../../types";
 import { useGlobalRefs } from "../../hooks/useGlobalRefs";
 import { DrawerActions } from "@react-navigation/routers";
 import { useNavigation } from "@react-navigation/core";
@@ -8,6 +8,43 @@ import { DrawerHeader } from "./DrawerHeader";
 import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getLiturgy } from "@/utils/getLiturgy";
+
+const ListItem = ({
+    title,
+    content,
+    index,
+    id,
+}: {
+    title?: string;
+    id: string;
+    content: Promise<Prayer>;
+    index: number;
+}) => {
+    const [data, setData] = useState<Prayer>();
+    useEffect(() => {
+        content.then(setData);
+    }, []);
+
+    return (
+        <Box marginBottom={12}>
+            {title && (
+                <Box paddingTop={index !== 0 ? 14 : undefined} paddingBottom={6}>
+                    <Text color="$white" size="lg" bold>
+                        {title}
+                    </Text>
+                </Box>
+            )}
+            {data && <MenuEntry index={index} prayer={{ ...data, id }} />}
+        </Box>
+    );
+};
+type Liturgy = {
+    title: string;
+    prayers: {
+        id: string;
+        content: Promise<Omit<Prayer, "id">>;
+    }[];
+}[];
 
 export const DrawerContent = () => {
     const insets = useSafeAreaInsets();
@@ -17,7 +54,8 @@ export const DrawerContent = () => {
     const prayers = liturgy ? liturgy.flatMap(({ prayers }) => prayers) : [];
 
     useEffect(() => {
-        getLiturgy().then(setLiturgy);
+        const data = getLiturgy();
+        setLiturgy(data);
     }, []);
 
     useEffect(() => {
@@ -29,17 +67,14 @@ export const DrawerContent = () => {
         liturgy && liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
 
     const renderItem = useCallback(
-        ({ item, index }: { item: Prayer; index: number }) => (
-            <Box marginBottom={12}>
-                {getSectionTitle(item.id) && (
-                    <Box paddingTop={index !== 0 ? 14 : undefined} paddingBottom={6}>
-                        <Text color="$white" size="lg" bold>
-                            {getSectionTitle(item.id)}
-                        </Text>
-                    </Box>
-                )}
-                <MenuEntry index={index} prayer={item} />
-            </Box>
+        ({ item, index }: { item: { id: string; content: Promise<Prayer> }; index: number }) => (
+            <ListItem
+                title={getSectionTitle(item.id)}
+                content={item.content}
+                key={item.id}
+                id={item.id}
+                index={index}
+            />
         ),
         []
     );

@@ -4,13 +4,12 @@ import * as path from "path";
 const PROJECT_ROOT = path.join(__dirname, "..");
 const READINGS_ROOT = path.join(PROJECT_ROOT, "resources");
 
-const generateIndexFile = (directory: string, resources: string[]) => `export default {
+const generateIndexFile = (resources: string[]) => `export default {
 ${resources.map((file) => `    "${file}": import("./${file}.json"),`).join("\n")}
 };
 `;
 
 const indexDirectory = (directoryPath: string) => {
-    const relativePath = path.relative(PROJECT_ROOT, directoryPath);
     const resources: string[] = []
 
     fs.readdirSync(directoryPath).forEach((file) => {
@@ -28,7 +27,7 @@ const indexDirectory = (directoryPath: string) => {
         return
     }
 
-    const generatedFile = generateIndexFile(relativePath, resources);
+    const generatedFile = generateIndexFile(resources);
     const outputPath = path.join(directoryPath, "index.ts");
     console.log(`Generated resource map ${outputPath}`);
     fs.writeFileSync(outputPath, generatedFile);

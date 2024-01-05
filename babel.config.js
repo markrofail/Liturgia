@@ -11,6 +11,7 @@ module.exports = function (api) {
                         "@assets": "./assets",
                         "@resources": "./resources",
                         "@components": "./src/components",
+                        "@src": "./src",
                         "@": "./src",
                     },
                     extensions: [".js", ".jsx", ".ts", ".tsx"],
