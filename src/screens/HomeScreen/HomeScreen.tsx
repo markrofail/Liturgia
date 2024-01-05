@@ -1,20 +1,18 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ViewToken, FlatList, View } from "react-native";
 import { Prayer } from "@/components/Prayer";
-import liturgy from "@/data/st-basil-liturgy";
 import { useGlobalRefs } from "@/hooks/useGlobalRefs";
-import { Prayer as PrayerT } from "@/types";
+import { Liturgy, Prayer as PrayerT } from "@/types";
 import { Text, Stack } from "@/components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { getLiturgy } from "@/utils/getLiturgy";
 
-const getSectionTitle = (prayerId: string) => liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
-
-const ListItem = (prayer: PrayerT) => {
+const ListItem = ({ title, prayer }: { title?: string; prayer: PrayerT }) => {
     return (
         <>
-            {getSectionTitle(prayer.id) && (
+            {title && (
                 <Stack spaceBelow="m">
-                    <Text variant="title" language="english" text={getSectionTitle(prayer.id)} />
+                    <Text variant="title" language="english" text={title} />
                 </Stack>
             )}
             <Prayer {...prayer} />
@@ -25,11 +23,16 @@ const ListItem = (prayer: PrayerT) => {
 export const HomeScreen = () => {
     const insets = useSafeAreaInsets();
     const { currentPrayerId, setCurrentPrayerId, liturgyContainerRef: scrollRef } = useGlobalRefs();
-    const prayers = liturgy.flatMap(({ prayers }) => prayers);
+    const [liturgy, setLiturgy] = useState<Liturgy>();
+    const prayers = liturgy ? liturgy.flatMap(({ prayers }) => prayers) : [];
 
     useEffect(() => {
-        setCurrentPrayerId(prayers[0].id);
+        getLiturgy().then(setLiturgy);
     }, []);
+
+    useEffect(() => {
+        prayers.length > 0 && setCurrentPrayerId(prayers[0].id);
+    }, [prayers.length > 0]);
 
     useEffect(() => {
         const index = prayers.findIndex(({ id }) => id === currentPrayerId);
@@ -41,8 +44,17 @@ export const HomeScreen = () => {
         if (!!visiblePrayerId && visiblePrayerId !== currentPrayerId) setCurrentPrayerId(visiblePrayerId);
     }).current;
 
-    const renderItem = useCallback(({ item: prayer }: { item: PrayerT }) => <ListItem {...prayer} />, []);
+    const getSectionTitle = (prayerId: string) =>
+        liturgy && liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
 
+    const renderItem = useCallback(
+        ({ item: prayer }: { item: PrayerT }) => (
+            <ListItem title={getSectionTitle(prayer.id)} prayer={prayer} key={prayer.id} />
+        ),
+        []
+    );
+
+    if (!liturgy) return null;
     return (
         <View
             style={{

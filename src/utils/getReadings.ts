@@ -36,7 +36,7 @@ export type Synaxarium = {
     }[];
 };
 
-type Index<T> = Record<string, () => T>;
+type Index<T> = Record<string, Promise<T>>;
 const INDEX_MAP = {
     "matins-psalm": MatinsPsalmIndex as Index<Reading>,
     "matins-gospel": MatinsGospelIndex as Index<Reading>,
@@ -50,11 +50,11 @@ const INDEX_MAP = {
     synaxarium: SynaxariumIndex as Index<Synaxarium>,
 };
 
-export const getReadings = (globalDate: Date, readingType: ReadingType) => {
+export const getReadings = async (globalDate: Date, readingType: ReadingType) => {
     if (readingType === "synaxarium") {
         const { month, day } = getCopticDate(globalDate);
         const filename = `${month}-${day}`.toLowerCase();
-        return SynaxariumIndex[filename]() as Synaxarium;
+        return await SynaxariumIndex[filename] as Synaxarium;
     } else {
         const { month, year, day } = {
             day: globalDate.getDate(),
@@ -63,6 +63,6 @@ export const getReadings = (globalDate: Date, readingType: ReadingType) => {
         };
         const filename = `${year}-${month}-${day}`;
         const index = INDEX_MAP[readingType];
-        return index[filename]();
+        return await index[filename];
     }
 };

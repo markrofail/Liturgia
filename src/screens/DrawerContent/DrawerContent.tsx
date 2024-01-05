@@ -1,26 +1,32 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
-import liturgy from "../../data/st-basil-liturgy";
-import { Prayer } from "../../types";
+import { Liturgy, Prayer } from "../../types";
 import { useGlobalRefs } from "../../hooks/useGlobalRefs";
 import { DrawerActions } from "@react-navigation/routers";
 import { useNavigation } from "@react-navigation/core";
 import { DrawerHeader } from "./DrawerHeader";
 import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { getLiturgy } from "@/utils/getLiturgy";
 
 export const DrawerContent = () => {
     const insets = useSafeAreaInsets();
     const { currentPrayerId } = useGlobalRefs();
     const scrollRef = useRef<FlatList>(null);
-    const prayers = liturgy.flatMap(({ prayers }) => prayers);
+    const [liturgy, setLiturgy] = useState<Liturgy>();
+    const prayers = liturgy ? liturgy.flatMap(({ prayers }) => prayers) : [];
+
+    useEffect(() => {
+        getLiturgy().then(setLiturgy);
+    }, []);
 
     useEffect(() => {
         const currentPrayer = prayers.find(({ id }) => id === currentPrayerId);
         scrollRef?.current?.scrollToItem({ item: currentPrayer, animated: false });
     }, [currentPrayerId]);
 
-    const getSectionTitle = (prayerId: string) => liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
+    const getSectionTitle = (prayerId: string) =>
+        liturgy && liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
 
     const renderItem = useCallback(
         ({ item, index }: { item: Prayer; index: number }) => (

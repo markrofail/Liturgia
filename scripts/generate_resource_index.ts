@@ -5,8 +5,9 @@ const PROJECT_ROOT = path.join(__dirname, "..");
 const READINGS_ROOT = path.join(PROJECT_ROOT, "resources");
 
 const generateIndexFile = (directory: string, resources: string[]) => `export default {
-${resources.map((file) => `    "${file}": () => require("@${directory}/${file}.json"),`).join("\n")}
-};`;
+${resources.map((file) => `    "${file}": import("./${file}.json"),`).join("\n")}
+};
+`;
 
 const indexDirectory = (directoryPath: string) => {
     const relativePath = path.relative(PROJECT_ROOT, directoryPath);

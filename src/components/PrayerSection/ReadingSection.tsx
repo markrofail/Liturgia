@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { Reading, ReadingType, Synaxarium, getReadings } from "../../utils/getReadings";
 import { MultiLingualText } from "..";
 import { getGlobalDate } from "../../settings";
@@ -9,7 +9,11 @@ export interface ReadingSectionProps {
 
 export const ReadingSection = ({ readingType }: ReadingSectionProps) => {
     const globalDate = getGlobalDate();
-    const readingText = useMemo(() => readingType && getReadings(globalDate, readingType), [globalDate, readingType]);
+    const [readingText, setReadingText] = useState<Reading | Synaxarium>();
+    useEffect(() => {
+        if (!readingType) return;
+        getReadings(globalDate, readingType).then(setReadingText);
+    });
 
     if (!readingText) return null;
     return (
