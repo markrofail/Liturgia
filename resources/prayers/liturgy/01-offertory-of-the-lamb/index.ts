@@ -1,0 +1,17 @@
+export default {
+    "00-our-father": () => require("@resources/prayers/01-offertory-of-the-lamb/00-our-father.json"),
+    "01-introduction-to-the-creed": () => require("@resources/prayers/01-offertory-of-the-lamb/01-introduction-to-the-creed.json"),
+    "02-the-orthodox-creed": () => require("@resources/prayers/01-offertory-of-the-lamb/02-the-orthodox-creed.json"),
+    "03-procession-of-the-lamb": () => require("@resources/prayers/01-offertory-of-the-lamb/03-procession-of-the-lamb.json"),
+    "04-khen-efran": () => require("@resources/prayers/01-offertory-of-the-lamb/04-khen-efran.json"),
+    "04-lord-have-mercy": () => require("@resources/prayers/01-offertory-of-the-lamb/04-lord-have-mercy.json"),
+    "05-holy-holy-holy": () => require("@resources/prayers/01-offertory-of-the-lamb/05-holy-holy-holy.json"),
+    "05-thanksgiving-prayer": () => require("@resources/prayers/01-offertory-of-the-lamb/05-thanksgiving-prayer.json"),
+    "06-absolution-of-the-servants": () => require("@resources/prayers/01-offertory-of-the-lamb/06-absolution-of-the-servants.json"),
+    "06-alleluia-fai-be-pi": () => require("@resources/prayers/01-offertory-of-the-lamb/06-alleluia-fai-be-pi.json"),
+    "07-khen-efran": () => require("@resources/prayers/01-offertory-of-the-lamb/07-khen-efran.json"),
+    "08-absolution-of-the-servants": () => require("@resources/prayers/01-offertory-of-the-lamb/08-absolution-of-the-servants.json"),
+    "08-thanksgiving-prayer": () => require("@resources/prayers/01-offertory-of-the-lamb/08-thanksgiving-prayer.json"),
+    "09-absolution-of-the-servants": () => require("@resources/prayers/01-offertory-of-the-lamb/09-absolution-of-the-servants.json"),
+    "09-thanksgiving-prayer": () => require("@resources/prayers/01-offertory-of-the-lamb/09-thanksgiving-prayer.json"),
+};
