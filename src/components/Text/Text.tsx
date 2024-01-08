@@ -16,12 +16,20 @@ export interface TextProps {
 
 export const Text = ({ fill, language, variant, color, inverse, text }: TextProps) => {
     const zoomMultiplier = getZoomMultiplier();
-    const styles = {
+    const styles: Record<string, any> = {
         color: color ?? (inverse ? "black" : "white"),
         ...languageStyles[language ?? "english"],
         ...variantStyles(zoomMultiplier)[variant],
     };
     if (!!color) styles.color = color;
+
+    if (language === "arabic") {
+        styles["fontSize"] = (styles["fontSize"] || 0) + 4;
+        styles["lineHeight"] = (styles["lineHeight"] || 0) + 4;
+    }
+    if (language === "coptic") {
+        styles["fontSize"] = (styles["fontSize"] || 0) + 6;
+    }
 
     return (
         !!text && (
