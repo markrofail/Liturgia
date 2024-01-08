@@ -1,52 +1,21 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ViewToken, FlatList, View } from "react-native";
 import { Prayer } from "@/components/Prayer";
 import { useGlobalRefs } from "@/hooks/useGlobalRefs";
 import { Prayer as PrayerT } from "@/types";
 import { Text, Stack } from "@/components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { getLiturgy } from "@/utils/getLiturgy";
-
-const ListItem = ({ title, content }: { title?: string; content: Promise<PrayerT> }) => {
-    const [data, setData] = useState<PrayerT>();
-    useEffect(() => {
-        content.then(setData);
-    }, []);
-
-    return (
-        <>
-            {title && (
-                <Stack spaceBelow="m">
-                    <Text variant="title" language="english" text={title} />
-                </Stack>
-            )}
-            {data && <Prayer {...data} />}
-        </>
-    );
-};
-
-type Liturgy = {
-    title: string;
-    prayers: {
-        id: string;
-        content: Promise<Omit<PrayerT, "id">>;
-    }[];
-}[];
+import { Prayer as NewPrayer, getLiturgy } from "@/utils/getLiturgy";
 
 export const HomeScreen = () => {
     const insets = useSafeAreaInsets();
     const { currentPrayerId, setCurrentPrayerId, liturgyContainerRef: scrollRef } = useGlobalRefs();
-    const [liturgy, setLiturgy] = useState<Liturgy>();
-    const prayers = liturgy ? liturgy.flatMap(({ prayers }) => prayers) : [];
+
+    const liturgy = useMemo(() => getLiturgy(), []);
+    const prayers = useMemo(() => liturgy.flatMap(({ prayers }) => prayers), [liturgy]);
 
     useEffect(() => {
-        const data = getLiturgy();
-        console.log(data);
-        setLiturgy(data);
-    }, []);
-
-    useEffect(() => {
-        liturgy && setCurrentPrayerId(liturgy[0].prayers[0].id);
+        liturgy && setCurrentPrayerId(prayers[0].id);
     }, [!liturgy]);
 
     useEffect(() => {
@@ -59,14 +28,11 @@ export const HomeScreen = () => {
         if (!!visiblePrayerId && visiblePrayerId !== currentPrayerId) setCurrentPrayerId(visiblePrayerId);
     }).current;
 
-    const getSectionTitle = (prayerId: string) =>
-        liturgy && liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
+    const getSectionTitle = (prayerId: string) => liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
 
     const renderItem = useCallback(
-        ({ item: prayer }: { item: { id: string; content: Promise<PrayerT> } }) => (
-            <ListItem title={getSectionTitle(prayer.id)} content={prayer.content} key={prayer.id} />
-        ),
-        []
+        ({ item }: { item: NewPrayer }) => <ListItem key={item.id} title={getSectionTitle(item.id)} prayer={item} />,
+        [],
     );
 
     if (!liturgy) return null;
@@ -91,21 +57,32 @@ export const HomeScreen = () => {
                     viewAreaCoveragePercentThreshold: 90,
                     minimumViewTime: 50,
                 }}
-                onScrollToIndexFailed={(error) => {
-                    if (!scrollRef?.current) return;
-                    scrollRef.current.scrollToOffset({
-                        offset: error.averageItemLength * error.index,
-                        animated: false,
-                    });
-                    setTimeout(() => {
-                        if (liturgy.length !== 0 && scrollRef.current !== null) {
-                            scrollRef.current.scrollToIndex({ index: error.index, animated: false });
-                        }
-                    }, 100);
-                }}
-                initialNumToRender={3}
+                initialNumToRender={prayers.length}
                 removeClippedSubviews
             />
         </View>
+    );
+};
+
+interface ListItemProps {
+    title?: string;
+    prayer: NewPrayer;
+}
+const ListItem = ({ title, prayer }: ListItemProps) => {
+    const [data, setData] = useState<PrayerT>();
+    useEffect(() => {
+        prayer.content.then(setData);
+    }, []);
+
+    if (!data) return null;
+    return (
+        <>
+            {!!title && (
+                <Stack spaceBelow="m">
+                    <Text variant="title" language="english" text={title} />
+                </Stack>
+            )}
+            {data && <Prayer {...data} />}
+        </>
     );
 };
