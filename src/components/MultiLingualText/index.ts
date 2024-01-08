@@ -1,1 +1,1 @@
-export * from "./MultiLingualText"
+export * from "./MultiLingualText";

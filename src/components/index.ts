@@ -1,3 +1,3 @@
-export * from "./Text"
-export * from "./Stack"
-export * from "./MultiLingualText"
+export * from "./Text";
+export * from "./Stack";
+export * from "./MultiLingualText";

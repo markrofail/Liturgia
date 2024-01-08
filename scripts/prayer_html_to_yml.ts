@@ -75,10 +75,10 @@ ${section.verses
         coptic: "${verse.coptic.replace(/"/g, '\\"')}"
         coptic_english: "${verse.coptic_english.replace(/"/g, '\\"')}"
         arabic: "${verse.arabic.replace(/"/g, '\\"')}"
-`
+`,
     )
     .join("")}
-`
+`,
     )
     .join("")}
 `;

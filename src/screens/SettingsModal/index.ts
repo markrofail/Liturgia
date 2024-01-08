@@ -1,1 +1,1 @@
-export * from "./SettingsModal"
+export * from "./SettingsModal";
