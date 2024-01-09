@@ -1,22 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { ViewToken, FlatList, View } from "react-native";
 import { Prayer } from "@/components/Prayer";
 import { useGlobalRefs } from "@/hooks/useGlobalRefs";
-import { Prayer as PrayerT } from "@/types";
-import { Text, Stack } from "@/components";
+import { MultiLingualText as MultiLingualTextT, Prayer as PrayerT } from "@/types";
+import { Stack, MultiLingualText } from "@/components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Prayer as NewPrayer, getLiturgy } from "@/utils/getLiturgy";
+import { DataEntry, Prayer as NewPrayer, getLiturgy } from "@/utils/getLiturgy";
 
 export const HomeScreen = () => {
-    const insets = useSafeAreaInsets();
     const { currentPrayerId, setCurrentPrayerId, liturgyContainerRef: scrollRef } = useGlobalRefs();
 
-    const liturgy = useMemo(() => getLiturgy(), []);
-    const prayers = useMemo(() => liturgy.flatMap(({ prayers }) => prayers), [liturgy]);
+    const data = useMemo(() => getLiturgy(), []);
+    const prayers = useMemo(() => data.filter(({ type }) => type === "data") as NewPrayer[], [data]);
 
     useEffect(() => {
-        liturgy && setCurrentPrayerId(prayers[0].id);
-    }, [!liturgy]);
+        data && setCurrentPrayerId(prayers[0].id);
+    }, [!data]);
 
     useEffect(() => {
         const index = prayers.findIndex(({ id }) => id === currentPrayerId);
@@ -28,29 +27,33 @@ export const HomeScreen = () => {
         if (!!visiblePrayerId && visiblePrayerId !== currentPrayerId) setCurrentPrayerId(visiblePrayerId);
     }).current;
 
-    const getSectionTitle = (prayerId: string) => liturgy.find(({ prayers }) => prayers[0].id === prayerId)?.title;
-
     const renderItem = useCallback(
-        ({ item }: { item: NewPrayer }) => <ListItem key={item.id} title={getSectionTitle(item.id)} prayer={item} />,
-        [],
+        ({ item }: { item: DataEntry }) =>
+            item.type === "title" ? (
+                <Stack spaceBelow="m">
+                    <MultiLingualText variant="title" text={item.title!} />
+                </Stack>
+            ) : (
+                <Prayer key={item.id} prayer={item} />
+            ),
+        []
     );
 
-    if (!liturgy) return null;
+    const insets = useSafeAreaInsets();
+    const padding = {
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left + 12,
+        paddingRight: insets.right + 12,
+    };
+
+    if (!data) return null;
     return (
-        <View
-            style={{
-                flex: 1,
-                backgroundColor: "black",
-                paddingTop: insets.top,
-                paddingBottom: insets.bottom,
-                paddingLeft: insets.left + 12,
-                paddingRight: insets.right + 12,
-            }}
-        >
+        <View style={{ flex: 1, backgroundColor: "black", ...padding }}>
             <FlatList
                 ref={scrollRef}
-                data={prayers}
-                keyExtractor={(prayer) => prayer.id}
+                data={data}
+                keyExtractor={(item) => item.id!}
                 renderItem={renderItem}
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={{
@@ -61,28 +64,5 @@ export const HomeScreen = () => {
                 removeClippedSubviews
             />
         </View>
-    );
-};
-
-interface ListItemProps {
-    title?: string;
-    prayer: NewPrayer;
-}
-const ListItem = ({ title, prayer }: ListItemProps) => {
-    const [data, setData] = useState<PrayerT>();
-    useEffect(() => {
-        prayer.content.then(setData);
-    }, []);
-
-    if (!data) return null;
-    return (
-        <>
-            {!!title && (
-                <Stack spaceBelow="m">
-                    <Text variant="title" language="english" text={title} />
-                </Stack>
-            )}
-            {data && <Prayer {...data} />}
-        </>
     );
 };
