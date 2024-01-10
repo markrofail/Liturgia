@@ -1,9 +1,10 @@
 import React, { memo } from "react";
-import { PrayerSection } from "../PrayerSection";
-import { MultiLingualText, Stack } from "..";
+import { Spinner } from "@gluestack-ui/themed";
+import { PrayerSection } from "@src/components/PrayerSection";
+import { MultiLingualText, Stack } from "@src/components";
 import { useMemoAsync } from "@src/hooks/useMemoAsync";
-import { Prayer as PrayerT } from "@/types";
-import { Prayer as NewPrayerT } from "@/utils/getLiturgy";
+import { Prayer as PrayerContent } from "@src/types";
+import { Prayer as PrayerT } from "@src/utils/getLiturgy";
 
 interface PrayerProps {
     prayer: NewPrayerT;

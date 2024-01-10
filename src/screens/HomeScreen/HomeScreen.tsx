@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { ViewToken, FlatList, View } from "react-native";
-import { Prayer } from "@/components/Prayer";
-import { useGlobalRefs } from "@/hooks/useGlobalRefs";
-import { MultiLingualText as MultiLingualTextT, Prayer as PrayerT } from "@/types";
-import { Stack, MultiLingualText } from "@/components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { DataEntry, Prayer as NewPrayer, getLiturgy } from "@/utils/getLiturgy";
+import { Prayer } from "@src/components/Prayer";
+import { useGlobalRefs } from "@src/hooks/useGlobalRefs";
+import { Prayer as PrayerT } from "@src/types";
+import { Stack, MultiLingualText } from "@src/components";
+import { DataEntry, Prayer as NewPrayer, getLiturgy } from "@src/utils/getLiturgy";
 
 export const HomeScreen = () => {
     const { currentPrayerId, setCurrentPrayerId, liturgyContainerRef: scrollRef } = useGlobalRefs();

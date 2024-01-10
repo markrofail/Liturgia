@@ -8,9 +8,7 @@
         "paths": {
             "@assets/*": ["assets/*"],
             "@resources/*": ["resources/*"],
-            "@components/*": ["src/components/*"],
-            "@src/*": ["src/*"],
-            "@/*": ["src/*"]
+            "@src/*": ["src/*"]
         }
     },
     "ts-node": {

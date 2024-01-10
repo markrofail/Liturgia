@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { FlatList, View } from "react-native";
-import { useGlobalRefs } from "../../hooks/useGlobalRefs";
 import { DrawerActions } from "@react-navigation/routers";
 import { useNavigation } from "@react-navigation/core";
-import { DrawerHeader } from "./DrawerHeader";
 import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { DataEntry, Prayer as NewPrayer, getLiturgy } from "@/utils/getLiturgy";
+import { DataEntry, Prayer as NewPrayer, getLiturgy } from "@src/utils/getLiturgy";
+import { useGlobalRefs } from "@src/hooks/useGlobalRefs";
+import { DrawerHeader } from "./DrawerHeader";
 
 export const DrawerContent = () => {
     const { currentPrayerId } = useGlobalRefs();
