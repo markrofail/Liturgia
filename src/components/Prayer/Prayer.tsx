@@ -7,25 +7,25 @@ import { Prayer as PrayerContent } from "@src/types";
 import { Prayer as PrayerT } from "@src/utils/getLiturgy";
 
 interface PrayerProps {
-    prayer: NewPrayerT;
+    prayer: PrayerT;
 }
 
-export const Prayer = memo(({ prayer }: PrayerProps) => {
-    const loadedPrayer = useMemoAsync<PrayerT>(prayer.content);
-    if (!loadedPrayer) return null;
+export const Prayer = memo(({ prayer: { title, content } }: PrayerProps) => {
+    const data = useMemoAsync<PrayerContent>(content);
 
-    const { title, sections } = loadedPrayer;
     return (
         <Stack spaceAbove="s" spaceBelow="xl">
             {/* Prayer Title */}
             <Stack spaceBelow="l">
-                <MultiLingualText variant="heading" text={{ english: title.english, arabic: title.arabic }} centered />
+                <MultiLingualText variant="heading" text={title} centered />
             </Stack>
 
             {/* Prayer Body */}
-            {sections.map((section, i) => (
-                <PrayerSection key={i} {...section} />
-            ))}
+            {data ? (
+                data.sections.map((section, i) => <PrayerSection key={i} {...section} />)
+            ) : (
+                <Spinner size="large" color="$white" />
+            )}
         </Stack>
     );
 });

@@ -18,7 +18,7 @@ export const HomeScreen = () => {
     }, [!data]);
 
     useEffect(() => {
-        const index = prayers.findIndex(({ id }) => id === currentPrayerId);
+        const index = data.findIndex(({ id }) => id === currentPrayerId);
         if (index > -1) scrollRef?.current?.scrollToIndex({ index, animated: false });
     }, [currentPrayerId]);
 
@@ -28,14 +28,15 @@ export const HomeScreen = () => {
     }).current;
 
     const renderItem = useCallback(
-        ({ item }: { item: DataEntry }) =>
-            item.type === "title" ? (
-                <Stack spaceBelow="m">
+        ({ item }: { item: DataEntry }) => (
+            <Stack spaceBelow="m">
+                {item.type === "title" ? (
                     <MultiLingualText variant="title" text={item.title!} />
-                </Stack>
-            ) : (
-                <Prayer key={item.id} prayer={item} />
-            ),
+                ) : (
+                    <Prayer key={item.id} prayer={item} />
+                )}
+            </Stack>
+        ),
         []
     );
 
