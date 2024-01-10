@@ -1,7 +1,7 @@
 import React, { memo } from "react";
-import { Spinner } from "@gluestack-ui/themed";
-import { PrayerSection } from "@src/components/PrayerSection";
 import { MultiLingualText, Stack } from "@src/components";
+import { PrayerSection } from "@src/components/PrayerSection";
+import { SkeletonParagraph } from "@src/components/SkeletonParagraph";
 import { useMemoAsync } from "@src/hooks/useMemoAsync";
 import { Prayer as PrayerContent } from "@src/types";
 import { Prayer as PrayerT } from "@src/utils/getLiturgy";
@@ -24,7 +24,7 @@ export const Prayer = memo(({ prayer: { title, content } }: PrayerProps) => {
             {data ? (
                 data.sections.map((section, i) => <PrayerSection key={i} {...section} />)
             ) : (
-                <Spinner size="large" color="$white" />
+                <SkeletonParagraph columns={3} rows={2} lines={3} />
             )}
         </Stack>
     );

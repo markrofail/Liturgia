@@ -1,0 +1,1 @@
+export { SkeletonParagraph } from "./SkeletonParagraph";
