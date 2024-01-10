@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+    Button,
+    ButtonText,
     CloseIcon,
     Heading,
     Icon,
@@ -12,8 +14,9 @@ import {
     ModalHeader,
     VStack,
 } from "@gluestack-ui/themed";
-import { FontSizeSlider } from "./FontSizeSlider";
-import { ChangeDateCalendar } from "./ChangeDateCalendar";
+import * as settings from "@src/settings";
+import { FontSizeField } from "./FontSizeField";
+import { CalendarDateField } from "./CalendarDateField";
 
 interface SettingsModalProps {
     open: boolean;
@@ -21,6 +24,15 @@ interface SettingsModalProps {
 }
 
 export const SettingsModal = ({ open, onClose }: SettingsModalProps) => {
+    const [fontSize, setFontSize] = useState(settings.getFontSize());
+    const [overrideDate, setOverrideDate] = useState(settings.getOverrideDate());
+
+    const onSave = () => {
+        settings.setFontSize(fontSize);
+        settings.setOverrideDate(overrideDate);
+        onClose();
+    };
+
     return (
         <Modal isOpen={open} onClose={onClose}>
             <ModalBackdrop />
@@ -35,19 +47,19 @@ export const SettingsModal = ({ open, onClose }: SettingsModalProps) => {
                 </ModalHeader>
                 <ModalBody>
                     <VStack space="xl">
-                        <FontSizeSlider />
-                        <ChangeDateCalendar />
+                        <FontSizeField value={fontSize} onChange={setFontSize} />
+                        <CalendarDateField value={overrideDate} onChange={setOverrideDate} />
                     </VStack>
                 </ModalBody>
-                <ModalFooter></ModalFooter>
+                <ModalFooter>
+                    <Button variant="outline" size="sm" action="secondary" mr="$3" onPress={onClose}>
+                        <ButtonText color="$white">Cancel</ButtonText>
+                    </Button>
+                    <Button size="sm" action="positive" borderWidth="$0" onPress={onSave}>
+                        <ButtonText>Save</ButtonText>
+                    </Button>
+                </ModalFooter>
             </ModalContent>
         </Modal>
-
-        // <Portal>
-        //     <Modal visible={open} onDismiss={onClose} contentContainerStyle={containerStyle}>
-        //         <Text>{storage.getNumber("fontSize")}</Text>
-        //         <TextInput label="Font Size" value={`${fontSize}`} onChangeText={onFontSizeChange} />
-        //     </Modal>
-        // </Portal>
     );
 };

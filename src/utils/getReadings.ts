@@ -1,5 +1,6 @@
-import { MultiLingualText } from "../types";
-import { getCopticDate } from "./copticCalendar";
+import { MultiLingualText } from "@src/types";
+import { getCopticDate } from "@src/utils/copticCalendar";
+import { getIsoDateString } from "@src/utils/dateUtils";
 import ActsIndex from "@resources/readings/acts-of-the-apostles";
 import CatholicEpistleIndex from "@resources/readings/catholic-epistle";
 import PaulineEpistleIndex from "@resources/readings/pauline-epistle";
@@ -64,13 +65,7 @@ export const getReadings = async (globalDate: Date, readingType: ReadingType) =>
         const filename = `${month}-${day}`.toLowerCase();
         return (await SynaxariumIndex[filename].content) as Synaxarium;
     } else {
-        const { month, year, day } = {
-            day: globalDate.getDate(),
-            month: globalDate.getMonth() + 1,
-            year: globalDate.getFullYear(),
-        };
-        const filename = `${year}-${month}-${day}`;
-        const index = INDEX_MAP[readingType];
-        return await index[filename].content;
+        const filename = getIsoDateString(globalDate);
+        return await INDEX_MAP[readingType][filename].content;
     }
 };

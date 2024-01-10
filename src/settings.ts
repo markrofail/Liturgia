@@ -1,12 +1,13 @@
 import { MMKV } from "react-native-mmkv";
+import { getIsoDateString } from "@src/utils/dateUtils";
 
-export const storage = new MMKV();
-// export const storage = {
-//     getNumber: (_key: string) => undefined,
-//     getString: (_key: string) => undefined,
-//     set: (_key: string, _value: any) => {},
-//     delete: (_key: string) => {},
-// };
+const TEST_MODE = false
+export const storage = !TEST_MODE ? new MMKV() : {
+    getNumber: (_key: string) => undefined,
+    getString: (_key: string) => undefined,
+    set: (_key: string, _value: any) => { },
+    delete: (_key: string) => { },
+};
 
 export const getZoomMultiplier = () => storage.getNumber("zooMultiplier") ?? 1.4;
 export const setZoomMultiplier = (value: number) => storage.set("zooMultiplier", value);
@@ -18,10 +19,9 @@ export const getOverrideDate = () => {
     const overrideDate = storage.getString("overrideDate");
     return overrideDate ? new Date(overrideDate) : null;
 };
-export const setOverrideDate = (date: string) => storage.set("overrideDate", date);
-export const clearOverrideDate = () => storage.delete("overrideDate");
-
-export const getGlobalDate = () => {
-    const overrideDate = getOverrideDate();
-    return overrideDate ? overrideDate : new Date();
+export const setOverrideDate = (date: Date | null) => {
+    if (!date) storage.delete("overrideDate")
+    else storage.set("overrideDate", getIsoDateString(date))
 };
+
+export const getGlobalDate = () => getOverrideDate() || new Date();

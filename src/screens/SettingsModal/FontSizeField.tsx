@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { HStack, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, VStack } from "@gluestack-ui/themed";
-import * as settings from "@/settings";
 
-export const FontSizeSlider = () => {
-    const [fontSize, setFontSize] = useState<number>(settings.getFontSize());
-    const onFontSizeChange = (value: number) => {
-        setFontSize(value);
-        settings.setFontSize(value);
-    };
+interface FontSizeFieldProps {
+    value: number;
+    onChange: (value: number) => void;
+}
 
+export const FontSizeField = ({ value, onChange }: FontSizeFieldProps) => {
     return (
         <VStack space="md">
             <HStack space="md">
@@ -17,7 +15,7 @@ export const FontSizeSlider = () => {
                 </Text>
 
                 <Text size="md" color="white">
-                    {fontSize}pt
+                    {value}pt
                 </Text>
             </HStack>
             <Slider
@@ -25,10 +23,10 @@ export const FontSizeSlider = () => {
                 sliderTrackHeight={5}
                 size="md"
                 step={1}
-                minValue={0}
+                minValue={6}
                 maxValue={30}
-                value={fontSize}
-                onChange={onFontSizeChange}
+                value={value}
+                onChange={onChange}
             >
                 <SliderTrack bg="#6e6e6e">
                     <SliderFilledTrack bg="$white" />

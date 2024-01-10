@@ -1,55 +1,58 @@
-import React, { useEffect, useState } from "react";
-import { Calendar } from "react-native-calendars";
-import { VStack, Text, Icon, ChevronRightIcon, ChevronLeftIcon, Center, HStack } from "@gluestack-ui/themed";
-import * as settings from "../../settings";
-import { getCopticDate } from "../../utils/copticCalendar";
-import { Switch } from "@gluestack-ui/themed";
-import { getGeorgianDateString } from "@/utils/dateUtils";
+import React, { useState } from "react";
+import { Calendar, DateData } from "react-native-calendars";
+import { VStack, Text, Icon, ChevronRightIcon, ChevronLeftIcon, HStack, Switch } from "@gluestack-ui/themed";
+import { getCopticDateString, getGeorgianDateString, getIsoDateString } from "@src/utils/dateUtils";
 
-export const ChangeDateCalendar = () => {
-    const [overrideDate, setOverrideDate] = useState(settings.getOverrideDate());
-    const [isOverridden, setIsOverridden] = useState(!!overrideDate);
-
-    const currentDate = isOverridden && overrideDate ? overrideDate : new Date();
-    const copticDate = getCopticDate(currentDate);
+interface CalendarDateFieldProps {
+    value: Date | null;
+    onChange: (value: Date | null) => void;
+}
+export const CalendarDateField = ({ value, onChange }: CalendarDateFieldProps) => {
+    const [enabled, setEnabled] = useState(!!value);
+    const currentDate = value ?? new Date();
     const isDifferent = new Date().toDateString() !== currentDate.toDateString();
 
-    const dateStr = getGeorgianDateString(currentDate);
-    const copticDateStr = `${copticDate.day} ${copticDate.month} ${copticDate.year}`;
+    const onToggle = () => {
+        setEnabled((prev) => !prev);
+        onChange(null);
+    };
+    const onDateChange = (date: DateData) => {
+        const newDate = new Date(date.dateString);
+        if (getIsoDateString(newDate) !== getIsoDateString(new Date())) onChange(newDate);
+    };
 
-    const dateISO = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
-    useEffect(() => {
-        if (!isDifferent) settings.clearOverrideDate();
-        else settings.setOverrideDate(dateISO);
-    }, [dateISO]);
+    const georgianDateStr = getGeorgianDateString(currentDate);
+    const copticDateStr = getCopticDateString(currentDate);
+    const isoDateStr = getIsoDateString(currentDate);
 
     return (
-        <VStack space="lg">
+        <VStack space="md">
             <HStack space="lg">
-                <HStack space="lg">
-                    <Text size="md" color="white" bold>
-                        Current Date
-                    </Text>
-                    <Text size="md" color={isDifferent ? "#ede61c" : "white"} bold={isDifferent}>
-                        {dateStr}
-                    </Text>
-                </HStack>
+                <Text size="md" color="white" bold>
+                    Current Date
+                </Text>
+                <Text size="md" color={isDifferent ? emphasis : white} bold={isDifferent}>
+                    {georgianDateStr}
+                </Text>
             </HStack>
+
             <HStack space="lg">
                 <Text size="md" color="white" bold>
                     Coptic Date
                 </Text>
-                <Text size="md" color={isDifferent ? "#ede61c" : "white"} bold={isDifferent}>
+                <Text size="md" color={isDifferent ? emphasis : white} bold={isDifferent}>
                     {copticDateStr}
                 </Text>
             </HStack>
+
             <HStack space="lg" alignItems="center">
                 <Text size="md" color="white" bold>
                     Override Date
                 </Text>
-                <Switch height={10} value={isOverridden} onToggle={setIsOverridden} />
+                <Switch height={10} value={enabled} onToggle={onToggle} />
             </HStack>
-            {isOverridden && (
+
+            {enabled && (
                 <Calendar
                     renderArrow={(direction) =>
                         direction === "left" ? (
@@ -59,9 +62,9 @@ export const ChangeDateCalendar = () => {
                         )
                     }
                     enableSwipeMonths
-                    onDayPress={(day) => setOverrideDate(new Date(day.dateString))}
+                    onDayPress={onDateChange}
                     markedDates={{
-                        [dateISO]: {
+                        [isoDateStr]: {
                             selected: true,
                             disableTouchEvent: true,
                             selectedColor: white,
@@ -87,6 +90,7 @@ export const ChangeDateCalendar = () => {
     );
 };
 
+const emphasis = "#ede61c";
 const disabled = "#6e6e6e";
 const white = "#ffffff";
 const black = "#000000";
