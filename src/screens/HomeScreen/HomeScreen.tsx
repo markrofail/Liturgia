@@ -62,6 +62,7 @@ export const HomeScreen = () => {
                     minimumViewTime: 50,
                 }}
                 initialNumToRender={prayers.length}
+                showsVerticalScrollIndicator={false}
                 removeClippedSubviews
             />
         </View>

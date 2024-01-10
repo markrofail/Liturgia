@@ -48,7 +48,13 @@ export const DrawerContent = () => {
     return (
         <View style={{ flex: 1, backgroundColor: "black", ...padding }}>
             <DrawerHeader />
-            <FlatList ref={scrollRef} data={data} keyExtractor={(item) => item.id!} renderItem={renderItem} />
+            <FlatList
+                ref={scrollRef}
+                data={data}
+                keyExtractor={(item) => item.id!}
+                renderItem={renderItem}
+                showsVerticalScrollIndicator={false}
+            />
         </View>
     );
 };
